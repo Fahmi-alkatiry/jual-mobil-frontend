@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/card";
 import { toast } from "sonner";
 import { Loader2, Lock } from "lucide-react";
+import { api } from "@/lib/api";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -50,39 +51,29 @@ export default function AdminLoginPage() {
   }, [router]);
 
   // 🔑 Handle login
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
+ const handleLogin = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setIsLoading(true);
 
-    try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+  try {
+    // URL dasar sudah diatur otomatis di instance api
+    const res = await api.post("/auth/login", formData);
+
+    if (res.data.success) {
+      localStorage.setItem("admin_token", res.data.token);
+      toast.success("Login Berhasil", {
+        description: "Selamat datang kembali, Admin.",
       });
-
-      const result = await res.json();
-
-      if (res.ok && result.success) {
-        localStorage.setItem("admin_token", result.token);
-        toast.success("Login Berhasil", {
-          description: "Selamat datang kembali, Admin.",
-        });
-        router.replace("/admin/dashboard");
-      } else {
-        toast.error("Login Gagal", {
-          description: result.message || "Username atau password salah.",
-        });
-      }
-    } catch {
-      toast.error("Error", {
-        description: "Gagal terhubung ke server.",
-      });
-    } finally {
-      setIsLoading(false);
+      router.replace("/admin/dashboard");
     }
-  };
-
+  } catch (error: any) {
+    toast.error("Login Gagal", {
+      description: error.response?.data?.message || "Gagal terhubung ke server.",
+    });
+  } finally {
+    setIsLoading(false);
+  }
+};
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50 px-4">
       <Card className="w-full max-w-md shadow-lg border-t-4 border-t-primary">
