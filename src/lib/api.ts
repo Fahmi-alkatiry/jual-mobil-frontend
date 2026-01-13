@@ -5,7 +5,8 @@ import axios from "axios";
  * process.env.NEXT_PUBLIC_API_URL diambil dari file .env.local Anda
  */
 export const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api",
+  baseURL:
+    process.env.NEXT_PUBLIC_API_URL || "http://api.jualmobilku.my.id/api",
   withCredentials: true,
 });
 
@@ -13,18 +14,21 @@ export const api = axios.create({
  * Request Interceptor
  * Berfungsi untuk "mencegat" setiap request keluar dan menempelkan token JWT
  */
-api.interceptors.request.use((config) => {
-  // Pastikan kode hanya berjalan di sisi client (browser)
-  if (typeof window !== "undefined") {
-    const token = localStorage.getItem("admin_token");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+api.interceptors.request.use(
+  (config) => {
+    // Pastikan kode hanya berjalan di sisi client (browser)
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("admin_token");
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
     }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
   }
-  return config;
-}, (error) => {
-  return Promise.reject(error);
-});
+);
 
 /**
  * Response Interceptor
