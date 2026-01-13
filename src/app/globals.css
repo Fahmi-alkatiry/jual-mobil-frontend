@@ -1,26 +1,120 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Mengimpor font (opsional, tapi lebih baik gunakan next/font di layout.tsx) */
+/* @import "@fontsource/plus-jakarta-sans/400.css"; ... dst */
+
+@theme {
+  /* --- KONFIGURASI FONT --- */
+  --font-jakarta: "Plus Jakarta Sans", system-ui, sans-serif;
+
+  /* --- KONFIGURASI WARNA (JualMobilku Design System) --- */
+  /* Di Tailwind v4, variabel --color-* otomatis menjadi class utility (misal: bg-background) */
+  
+  --color-background: hsl(210 20% 98%);
+  --color-foreground: hsl(215 25% 15%);
+
+  --color-card: hsl(0 0% 100%);
+  --color-card-foreground: hsl(215 25% 15%);
+
+  --color-popover: hsl(0 0% 100%);
+  --color-popover-foreground: hsl(215 25% 15%);
+
+  /* Vibrant Orange */
+  --color-primary: hsl(25 95% 53%);
+  --color-primary-foreground: hsl(0 0% 100%);
+
+  --color-secondary: hsl(210 15% 95%);
+  --color-secondary-foreground: hsl(215 25% 25%);
+
+  --color-muted: hsl(210 15% 92%);
+  --color-muted-foreground: hsl(215 15% 45%);
+
+  --color-accent: hsl(25 100% 95%);
+  --color-accent-foreground: hsl(25 95% 40%);
+
+  --color-destructive: hsl(0 84% 60%);
+  --color-destructive-foreground: hsl(0 0% 100%);
+
+  --color-border: hsl(210 20% 88%);
+  --color-input: hsl(210 20% 88%);
+  --color-ring: hsl(25 95% 53%);
+
+  /* Custom tokens */
+  --color-success: hsl(142 76% 36%);
+  --color-success-foreground: hsl(0 0% 100%);
+  --color-warning: hsl(38 92% 50%);
+  --color-warning-foreground: hsl(0 0% 100%);
+
+  /* Sidebar Specific */
+  --color-sidebar-background: hsl(0 0% 100%);
+  --color-sidebar-foreground: hsl(215 25% 25%);
+  --color-sidebar-primary: hsl(25 95% 53%);
+  --color-sidebar-primary-foreground: hsl(0 0% 100%);
+  --color-sidebar-accent: hsl(210 15% 95%);
+  --color-sidebar-accent-foreground: hsl(215 25% 25%);
+  --color-sidebar-border: hsl(210 20% 88%);
+  --color-sidebar-ring: hsl(25 95% 53%);
+
+  /* --- RADIUS --- */
+  --radius-xl: 0.75rem; /* Default radius mapping */
+
+  /* --- SHADOWS --- */
+  --shadow-sm: 0 1px 2px 0 hsl(215 25% 15% / 0.05);
+  --shadow-md: 0 4px 6px -1px hsl(215 25% 15% / 0.08), 0 2px 4px -2px hsl(215 25% 15% / 0.05);
+  --shadow-lg: 0 10px 15px -3px hsl(215 25% 15% / 0.08), 0 4px 6px -4px hsl(215 25% 15% / 0.05);
+  --shadow-xl: 0 20px 25px -5px hsl(215 25% 15% / 0.1), 0 8px 10px -6px hsl(215 25% 15% / 0.05);
+
+  /* --- ANIMATIONS --- */
+  /* Di v4, --animate-* otomatis membuat utility class */
+  --animate-float: float 3s ease-in-out infinite;
+  --animate-pulse-soft: pulse-soft 2s ease-in-out infinite;
+  --animate-slide-up: slide-up 0.5s ease-out;
+  --animate-fade-in: fade-in 0.4s ease-out;
+
+  /* Keyframes harus didefinisikan sebagai --keyframes-* jika ingin terhubung ke theme,
+     atau gunakan @keyframes standar CSS biasa di bawah @theme */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Keyframes Definitions */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Base Styles */
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  html {
+    /* Menggunakan variabel font yang didefinisikan di @theme */
+    font-family: var(--font-jakarta); 
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
 }
+
