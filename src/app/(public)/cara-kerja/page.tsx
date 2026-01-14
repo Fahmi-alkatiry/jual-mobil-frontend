@@ -6,8 +6,6 @@ import {
   ShieldCheck,
   CheckCircle2,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import Header from "@/components/Header";
 import Link from "next/link";
 
 const CaraKerja = () => {

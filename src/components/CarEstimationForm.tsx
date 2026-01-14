@@ -26,6 +26,7 @@ import { id } from "date-fns/locale";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { api } from "@/lib/api";
 
 // --- 1. Schema Validasi (Sama persis dengan Backend) ---
 const currentYear = new Date().getFullYear();
@@ -147,68 +148,67 @@ const CarEstimationForm = () => {
   };
 
   // --- Submit Final ---
-  const handleSubmit = async () => {
-    setIsLoading(true);
+const handleSubmit = async () => {
+  setIsLoading(true);
+  
+  // 1. Validasi Field Kontak (Step 3)
+  const finalFields: (keyof CarFormValues)[] = ['fullName', 'whatsapp', 'email', 'inspectionLocation'];
+  let isFinalValid = true;
+  
+  finalFields.forEach((field) => {
+    const isValid = validateField(field, formData[field]);
+    if (!isValid) isFinalValid = false;
+    setTouched((prev) => ({ ...prev, [field]: true }));
+  });
+
+  if (!isFinalValid) {
+    toast.error("Mohon lengkapi data kontak.");
+    setIsLoading(false);
+    return;
+  }
+
+  // 2. Persiapan Payload
+  // Membersihkan angka 0 di depan nomor WA (0812 -> 812)
+  const cleanWhatsapp = formData.whatsapp?.startsWith('0') 
+    ? formData.whatsapp.slice(1) 
+    : formData.whatsapp;
+
+  const payload = {
+    ...formData,
+    taxDate: formData.taxExpiry,           // Pemetaan field untuk backend
+    location: formData.inspectionLocation, // Pemetaan field untuk backend
+    whatsapp: `+62${cleanWhatsapp}`,       // Format standar internasional
+  };
+
+  try {
+    // 3. Eksekusi Request menggunakan Axios instance
+    const res = await api.post('/sell-car', payload);
     
-    // Validasi Step 3 dan Final Check
-    const finalFields: (keyof CarFormValues)[] = ['fullName', 'whatsapp', 'email', 'inspectionLocation'];
-    let isFinalValid = true;
-    
-    finalFields.forEach((field) => {
-      const isValid = validateField(field, formData[field]);
-      if (!isValid) isFinalValid = false;
-      setTouched((prev) => ({ ...prev, [field]: true }));
-    });
-
-    if (!isFinalValid) {
-      toast.error("Mohon lengkapi data kontak.");
-      setIsLoading(false);
-      return;
-    }
-
-    // Persiapan Payload
-    // Hapus angka 0 di depan jika user mengetiknya (misal 0812... jadi 812...)
-    const cleanWhatsapp = formData.whatsapp?.startsWith('0') 
-      ? formData.whatsapp.slice(1) 
-      : formData.whatsapp;
-
-    const payload = {
-      ...formData,
-      taxDate: formData.taxExpiry, // Rename field untuk backend (Date Object)
-      whatsapp: `+62${cleanWhatsapp}`, // Format WA standar (+62812...)
-      location: formData.inspectionLocation, // Rename field untuk backend (required)
-    };
-
-    try {
-      const res = await fetch('http://localhost:5000/api/sell-car', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+    if (res.data.success) {
+      toast.success("Permintaan Terkirim!", { 
+        description: "Tim kami akan segera menghubungi WhatsApp Anda." 
       });
       
-      const result = await res.json();
-      
-      if (res.ok && result.success) {
-        toast.success("Permintaan Terkirim!", { description: "Tim kami akan segera menghubungi WhatsApp Anda." });
-        const safeName = encodeURIComponent(formData.fullName || "Pelanggan");
-        router.push(`/success?name=${safeName}`); // Redirect ke halaman sukses
-      } else {
-        // Handle Error Validasi Backend secara detail
-        let errorMessage = result.message || "Terjadi kesalahan.";
-        
-        // Jika backend mengirim array error (Zod backend)
-        if (result.errors && Array.isArray(result.errors)) {
-           errorMessage = result.errors.map((e: any) => `${e.path}: ${e.message}`).join(", ");
-        }
-        
-        toast.error("Gagal", { description: errorMessage });
-      }
-    } catch (error) {
-      toast.error("Error Koneksi", { description: "Pastikan server backend menyala." });
-    } finally {
-      setIsLoading(false);
+      const safeName = encodeURIComponent(formData.fullName || "Pelanggan");
+      router.push(`/success?name=${safeName}`); 
     }
-  };
+  } catch (error: any) {
+    // 4. Penanganan Error terpusat dari Axios
+    const result = error.response?.data;
+    let errorMessage = result?.message || "Terjadi kesalahan koneksi.";
+    
+    // Menampilkan detail error validasi (misal dari Zod di backend)
+    if (result?.errors && Array.isArray(result.errors)) {
+      errorMessage = result.errors
+        .map((e: any) => `${e.field || e.path}: ${e.message}`)
+        .join(", ");
+    }
+    
+    toast.error("Gagal", { description: errorMessage });
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   // Helper Component untuk Menampilkan Error
 const FieldInfo = ({ fieldName }: { fieldName: keyof CarFormValues }) => {

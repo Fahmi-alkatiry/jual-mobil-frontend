@@ -6,7 +6,7 @@ import axios from "axios";
  */
 export const api = axios.create({
   baseURL:
-    process.env.NEXT_PUBLIC_API_URL || "http://api.jualmobilku.my.id/api",
+    process.env.NEXT_PUBLIC_API_URL || "https://api.jualmobilku.my.id/api",
   withCredentials: true,
 });
 

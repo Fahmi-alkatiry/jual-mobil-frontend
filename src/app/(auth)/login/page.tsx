@@ -31,19 +31,16 @@ export default function AdminLoginPage() {
 
     const checkLogin = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/auth/me", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        // api.ts otomatis menambahkan baseURL dan Header Authorization
+        const res = await api.get("/auth/me");
 
-        if (res.ok) {
+        if (res.data.success) {
           router.replace("/admin/dashboard");
-        } else {
-          localStorage.removeItem("admin_token");
         }
-      } catch {
-        localStorage.removeItem("admin_token");
+      } catch (error) {
+        // Error 401 (Unauthorized) sudah ditangani oleh interceptor di api.ts
+        // yang otomatis menghapus token dan mengarahkan ke halaman login.
+        console.error("Sesi tidak valid atau server bermasalah");
       }
     };
 
