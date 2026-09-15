@@ -1,21 +1,28 @@
-import { MessageCircle } from "lucide-react"
-import { Button } from "@/components/ui/button"
+// import { MessageCircle } from "lucide-react"
+import { Button } from "@/components/ui/button";
 
 export function FloatingWhatsApp() {
+
+  const whatsappBase64 = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgMzIgMzIiIGZpbGw9IiNmZmZmZmYiPjxwYXRoIGZpbGw9IiNmZmZmZmYiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTI0LjUwNCA3LjUwNEExMS44NzUgMTEuODc1IDAgMCAwIDE2LjA1IDRDOS40NjUgNCA0LjEgOS4zNiA0LjEgMTUuOTQ1YTExLjg4MiAxMS44ODIgMCAwIDAgMS41OTQgNS45NzNMNCAyOC4xMDlsNi4zMzYtMS42NjRhMTEuOTU4IDExLjk1OCAwIDAgMCA1LjcxIDEuNDU3aC4wMDVjNi41ODYgMCAxMS45NDUtNS4zNTkgMTEuOTQ5LTExLjk0OWMwLTMuMTkxLTEuMjQyLTYuMTkxLTMuNDk2LTguNDV6TTE2LjA1IDI1Ljg4M2gtLjAwNGE5LjkzIDkuOTMgMCAwIDEtNS4wNTUtMS4zODNsLS4zNjMtLjIxNWwtMy43NjIuOTg1bDEuMDA0LTMuNjY1bC0uMjM0LS4zNzVhOS45MDQgOS45MDQgMCAwIDEtMS41Mi01LjI4NWMwLTUuNDcyIDQuNDU3LTkuOTI1IDkuOTM4LTkuOTI1YTkuODYzIDkuODYzIDAgMCAxIDcuMDIgMi45MWE5Ljg3NSA5Ljg3NSAwIDAgMSAyLjkwNSA3LjAyM2MwIDUuNDc3LTQuNDU3IDkuOTMtOS45MyA5Ljkzem01LjQ0NS03LjQzOGMtLjI5Ny0uMTQ4LTEuNzY2LS44Ny0yLjAzOS0uOTY4Yy0uMjczLS4xMDItLjQ3My0uMTQ5LS42NzIuMTQ4Yy0uMi4zLS43Ny45NzMtLjk0NSAxLjE3MmMtLjE3Mi4xOTUtLjM0OC4yMjMtLjY0NS4wNzRjLS4zLS4xNDgtMS4yNjEtLjQ2NS0yLjQwMi0xLjQ4NGMtLjg4Ny0uNzktMS40ODgtMS43Ny0xLjY2LTIuMDY3Yy0uMTc2LS4zLS4wMi0uNDYuMTI5LS42MWMuMTM2LS4xMzIuMy0uMzQ3LjQ0OS0uNTIzYy4xNDgtLjE3MS4yLS4yOTYuMy0uNDk2Yy4wOTgtLjE5OS4wNDgtLjM3NS0uMDI3LS41MjNjLS4wNzQtLjE0OC0uNjcxLTEuNjIxLS45MjEtMi4yMTljLS4yNDMtLjU4Mi0uNDg5LS41LS42NzItLjUxMWMtLjE3Mi0uMDA4LS4zNzEtLjAwOC0uNTctLjAwOGMtLjIgMC0uNTI0LjA3NC0uNzk4LjM3NWMtLjI3My4yOTctMS4wNDMgMS4wMi0xLjA0MyAyLjQ4OGMwIDEuNDY5IDEuMDcgMi44OSAxLjIyIDMuMDljLjE0OC4xOTUgMi4xMDUgMy4yMSA1LjEgNC41MDRhMTYuODUgMTYuODUgMCAwIDAgMS43LjYyOWMuNzE1LjIyNiAxLjM2Ny4xOTUgMS44ODMuMTJjLjU3NC0uMDg1IDEuNzY1LS43MjIgMi4wMTUtMS40MjFjLjI0Ny0uNjk1LjI0Ny0xLjI5My4xNzItMS40MThjLS4wNzQtLjEyNS0uMjczLS4yLS41NzQtLjM1MnoiLz48L3N2Zz4=";
+
   return (
-    <a 
-      href="https://wa.me/6281234567890" 
-      target="_blank" 
+    <a
+      href="https://wa.me/6281234567890"
+      target="_blank"
       rel="noopener noreferrer"
       className="fixed bottom-6 right-6 z-50 animate-bounce hover:animate-none"
     >
-      <Button 
-        size="lg" 
-        className="rounded-full h-14 w-14 p-0 bg-[#25D366] hover:bg-[#128C7E] shadow-lg"
+      <Button
+        size="lg"
+        className="rounded-full h-14 w-14 p-0 bg-[#25D366] hover:bg-[#25D366] shadow-lg"
       >
-        <MessageCircle className="w-8 h-8 text-white" />
+        <img
+          src={whatsappBase64} 
+          alt="WhatsApp" 
+          className="w-10 h-10 object-contain"
+        />
         <span className="sr-only">Chat WhatsApp</span>
       </Button>
     </a>
-  )
+  );
 }

@@ -38,8 +38,9 @@ import {
   MessageCircle,
   Search,
   Car,
-  Filter
+  Filter,
 } from "lucide-react";
+import Link from "next/link";
 
 /**
  * Konfigurasi Warna Status
@@ -47,20 +48,20 @@ import {
 const STATUS_CONFIG = {
   BARU: {
     color: "bg-blue-100 text-blue-600 border-blue-200",
-    label: "BARU"
+    label: "BARU",
   },
   DIPROSES: {
     color: "bg-amber-100 text-amber-600 border-amber-200",
-    label: "DIPROSES"
+    label: "DIPROSES",
   },
   SELESAI: {
     color: "bg-emerald-100 text-emerald-600 border-emerald-200",
-    label: "TERJUAL"
+    label: "TERJUAL",
   },
   BATAL: {
     color: "bg-rose-100 text-rose-600 border-rose-200",
-    label: "DIBATALKAN"
-  }
+    label: "DIBATALKAN",
+  },
 };
 
 type OfferStatus = keyof typeof STATUS_CONFIG;
@@ -103,12 +104,12 @@ export default function AdminDashboardPage() {
     setLoading(true);
     try {
       const res = await api.get("/offers", {
-        params: { 
-          page, 
-          search, 
-          from, 
-          to, 
-          status: statusFilter !== "ALL" ? statusFilter : undefined 
+        params: {
+          page,
+          search,
+          from,
+          to,
+          status: statusFilter !== "ALL" ? statusFilter : undefined,
         },
       });
       setOffers(res.data.data);
@@ -153,7 +154,9 @@ export default function AdminDashboardPage() {
             <Car className="text-white w-6 h-6" />
           </div>
           <div>
-            <h1 className="text-2xl font-black tracking-tight text-slate-900">Dashboard Penawaran</h1>
+            <h1 className="text-2xl font-black tracking-tight text-slate-900">
+              Dashboard Penawaran
+            </h1>
             <p className="text-sm text-muted-foreground font-medium">
               Manajemen data real-time JualMobilku
             </p>
@@ -167,7 +170,12 @@ export default function AdminDashboardPage() {
           disabled={loading}
           className="rounded-xl font-bold border-slate-200"
         >
-          <RefreshCcw className={cn("mr-2 h-4 w-4 text-slate-500", loading && "animate-spin")} />
+          <RefreshCcw
+            className={cn(
+              "mr-2 h-4 w-4 text-slate-500",
+              loading && "animate-spin",
+            )}
+          />
           Refresh Data
         </Button>
       </div>
@@ -190,7 +198,13 @@ export default function AdminDashboardPage() {
         <div className="flex flex-wrap items-center gap-3">
           {/* Status Filter */}
           <div className="w-full md:w-48">
-            <Select value={statusFilter} onValueChange={(v) => { setStatusFilter(v); setPage(1); }}>
+            <Select
+              value={statusFilter}
+              onValueChange={(v) => {
+                setStatusFilter(v);
+                setPage(1);
+              }}
+            >
               <SelectTrigger className="rounded-xl font-bold h-10 border-slate-200">
                 <div className="flex items-center gap-2">
                   <Filter className="w-3.5 h-3.5 text-blue-600" />
@@ -198,11 +212,33 @@ export default function AdminDashboardPage() {
                 </div>
               </SelectTrigger>
               <SelectContent className="rounded-xl">
-                <SelectItem value="ALL" className="font-bold text-xs">SEMUA STATUS</SelectItem>
-                <SelectItem value="BARU" className="font-bold text-xs text-blue-600">STATUS BARU</SelectItem>
-                <SelectItem value="DIPROSES" className="font-bold text-xs text-amber-600">DIPROSES</SelectItem>
-                <SelectItem value="SELESAI" className="font-bold text-xs text-emerald-600">TERJUAL</SelectItem>
-                <SelectItem value="BATAL" className="font-bold text-xs text-rose-600">DIBATALKAN</SelectItem>
+                <SelectItem value="ALL" className="font-bold text-xs">
+                  SEMUA STATUS
+                </SelectItem>
+                <SelectItem
+                  value="BARU"
+                  className="font-bold text-xs text-blue-600"
+                >
+                  STATUS BARU
+                </SelectItem>
+                <SelectItem
+                  value="DIPROSES"
+                  className="font-bold text-xs text-amber-600"
+                >
+                  DIPROSES
+                </SelectItem>
+                <SelectItem
+                  value="SELESAI"
+                  className="font-bold text-xs text-emerald-600"
+                >
+                  TERJUAL
+                </SelectItem>
+                <SelectItem
+                  value="BATAL"
+                  className="font-bold text-xs text-rose-600"
+                >
+                  DIBATALKAN
+                </SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -214,14 +250,15 @@ export default function AdminDashboardPage() {
                 variant="outline"
                 className={cn(
                   "w-full md:w-[280px] justify-start text-left font-bold h-10 rounded-xl border-slate-200",
-                  !dateRange && "text-muted-foreground"
+                  !dateRange && "text-muted-foreground",
                 )}
               >
                 <CalendarIcon className="mr-2 h-4 w-4 text-blue-600" />
                 {dateRange?.from ? (
                   dateRange.to ? (
                     <span className="truncate">
-                      {format(dateRange.from, "dd MMM")} - {format(dateRange.to, "dd MMM yyyy")}
+                      {format(dateRange.from, "dd MMM")} -{" "}
+                      {format(dateRange.to, "dd MMM yyyy")}
                     </span>
                   ) : (
                     format(dateRange.from, "dd MMM yyyy")
@@ -235,7 +272,10 @@ export default function AdminDashboardPage() {
               <Calendar
                 mode="range"
                 selected={dateRange}
-                onSelect={(range) => { setDateRange(range); setPage(1); }}
+                onSelect={(range) => {
+                  setDateRange(range);
+                  setPage(1);
+                }}
                 numberOfMonths={2}
                 initialFocus
                 className="rounded-xl border shadow-2xl"
@@ -243,8 +283,8 @@ export default function AdminDashboardPage() {
             </PopoverContent>
           </Popover>
 
-          <Button 
-            variant="default" 
+          <Button
+            variant="default"
             onClick={fetchOffers}
             className="rounded-xl bg-blue-600 hover:bg-blue-700 font-bold px-6 shadow-lg shadow-blue-100 transition-all ml-auto md:ml-0"
           >
@@ -266,15 +306,43 @@ export default function AdminDashboardPage() {
       {/* STATISTICS CARDS */}
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
         {[
-          { label: "Total Unit", value: statistics?.TOTAL || 0, color: "text-slate-900", icon: null },
-          { label: "Status Baru", value: statistics?.BARU || 0, color: "text-blue-600", icon: "BARU" },
-          { label: "Diproses", value: statistics?.DIPROSES || 0, color: "text-amber-600", icon: "DIPROSES" },
-          { label: "Terjual", value: statistics?.SELESAI || 0, color: "text-emerald-600", icon: "SELESAI" },
-          { label: "Dibatalkan", value: statistics?.BATAL || 0, color: "text-rose-600", icon: "BATAL" },
+          {
+            label: "Total Unit",
+            value: statistics?.TOTAL || 0,
+            color: "text-slate-900",
+            icon: null,
+          },
+          {
+            label: "Status Baru",
+            value: statistics?.BARU || 0,
+            color: "text-blue-600",
+            icon: "BARU",
+          },
+          {
+            label: "Diproses",
+            value: statistics?.DIPROSES || 0,
+            color: "text-amber-600",
+            icon: "DIPROSES",
+          },
+          {
+            label: "Terjual",
+            value: statistics?.SELESAI || 0,
+            color: "text-emerald-600",
+            icon: "SELESAI",
+          },
+          {
+            label: "Dibatalkan",
+            value: statistics?.BATAL || 0,
+            color: "text-rose-600",
+            icon: "BATAL",
+          },
         ].map((item) => (
           <div
             key={item.label}
-            onClick={() => { if(item.icon) setStatusFilter(item.icon); fetchOffers(); }}
+            onClick={() => {
+              if (item.icon) setStatusFilter(item.icon);
+              fetchOffers();
+            }}
             className="rounded-2xl border bg-white p-5 shadow-sm transition-all hover:shadow-md hover:-translate-y-1 cursor-pointer group"
           >
             <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1 group-hover:text-primary transition-colors">
@@ -292,8 +360,10 @@ export default function AdminDashboardPage() {
         {loading && (
           <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/60 backdrop-blur-[1px]">
             <div className="flex flex-col items-center gap-2">
-               <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
-               <p className="text-xs font-bold text-slate-400 uppercase tracking-tighter">Sinkronisasi...</p>
+              <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+              <p className="text-xs font-bold text-slate-400 uppercase tracking-tighter">
+                Sinkronisasi...
+              </p>
             </div>
           </div>
         )}
@@ -302,18 +372,49 @@ export default function AdminDashboardPage() {
           <Table>
             <TableHeader className="bg-slate-50/50">
               <TableRow>
-                <TableHead className="font-bold py-4 px-6 text-[11px] text-slate-400 uppercase tracking-widest">Klien & Kontak</TableHead>
-                <TableHead className="font-bold py-4 text-[11px] text-slate-400 uppercase tracking-widest">Informasi Unit</TableHead>
-                <TableHead className="font-bold py-4 text-[11px] text-slate-400 uppercase tracking-widest text-center">Lokasi</TableHead>
-                <TableHead className="font-bold py-4 text-[11px] text-slate-400 uppercase tracking-widest">Progres Status</TableHead>
+                <TableHead className="font-bold py-4 px-6 text-[11px] text-slate-400 uppercase tracking-widest">
+                  Tanggal
+                </TableHead>
+                <TableHead className="font-bold py-4 px-6 text-[11px] text-slate-400 uppercase tracking-widest">
+                  Klien & Kontak
+                </TableHead>
+                <TableHead className="font-bold py-4 text-[11px] text-slate-400 uppercase tracking-widest">
+                  Informasi Unit
+                </TableHead>
+                <TableHead className="font-bold py-4 text-[11px] text-slate-400 uppercase tracking-widest text-center">
+                  Lokasi
+                </TableHead>
+                <TableHead className="font-bold py-4 text-[11px] text-slate-400 uppercase tracking-widest text-center">
+                  Lokasi
+                </TableHead>
+                <TableHead className="font-bold py-4 text-[11px] text-slate-400 uppercase tracking-widest">
+                  Progres Status
+                </TableHead>
               </TableRow>
             </TableHeader>
 
             <TableBody>
               {offers.map((o) => (
-                <TableRow key={o.id} className="hover:bg-slate-50/30 transition-colors">
+                <TableRow
+                  key={o.id}
+                  className="hover:bg-slate-50/30 transition-colors"
+                >
+                  <TableCell className="py-4">
+                    <div className="font-bold text-slate-800 leading-tight">
+                      {new Date(o.createdAt).toLocaleDateString("id-ID")}
+                    </div>
+
+                    {/* <div className="flex gap-2 mt-1">
+                      <span className="text-[10px] font-black text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded uppercase">
+                        {o.createdAt}
+                      </span>
+                    </div> */}
+                  </TableCell>
+
                   <TableCell className="px-6 py-4">
-                    <div className="font-bold text-slate-900 leading-tight">{o.fullName}</div>
+                    <div className="font-bold text-slate-900 leading-tight">
+                      {o.fullName}
+                    </div>
                     <a
                       href={`https://wa.me/${o.whatsapp.replace(/\D/g, "")}`}
                       target="_blank"
@@ -337,25 +438,54 @@ export default function AdminDashboardPage() {
                   </TableCell>
 
                   <TableCell className="py-4 text-center">
-                    <Badge variant="outline" className="rounded-full font-bold text-[10px] border-slate-200 py-0.5">
+                    <Badge
+                      variant="outline"
+                      className="rounded-full font-bold text-[10px] border-slate-200 py-0.5"
+                    >
                       {o.location}
                     </Badge>
+                  </TableCell>
+                  <TableCell className="py-4 text-center">
+                    {/* <Badge
+                      variant="outline"
+                      className="rounded-full font-bold text-[10px] border-slate-200 py-0.5"
+                    >
+                      {o.location}
+                    </Badge> */}
+                    {/* <Button variant={"link"}>
+                      detail
+                    </Button> */}
+                    <Link
+                      href={`/admin/offers/${o.id}`}
+                      className="text-blue-500 hover:underline"
+                    >
+                      detail
+                    </Link>
                   </TableCell>
 
                   <TableCell className="py-4">
                     <Select
                       defaultValue={o.status}
-                      onValueChange={(v) => updateStatus(o.id, v as OfferStatus)}
+                      onValueChange={(v) =>
+                        updateStatus(o.id, v as OfferStatus)
+                      }
                     >
-                      <SelectTrigger className={cn(
-                        "h-8 w-32 text-[10px] font-black rounded-full border shadow-sm transition-all",
-                        STATUS_CONFIG[o.status]?.color || "bg-slate-100 text-slate-600"
-                      )}>
+                      <SelectTrigger
+                        className={cn(
+                          "h-8 w-32 text-[10px] font-black rounded-full border shadow-sm transition-all",
+                          STATUS_CONFIG[o.status]?.color ||
+                            "bg-slate-100 text-slate-600",
+                        )}
+                      >
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent className="rounded-xl border-slate-200">
                         {Object.entries(STATUS_CONFIG).map(([key, config]) => (
-                          <SelectItem key={key} value={key} className="text-[11px] font-bold">
+                          <SelectItem
+                            key={key}
+                            value={key}
+                            className="text-[11px] font-bold"
+                          >
                             {config.label}
                           </SelectItem>
                         ))}
@@ -369,8 +499,10 @@ export default function AdminDashboardPage() {
                 <TableRow>
                   <TableCell colSpan={4} className="py-24 text-center">
                     <div className="flex flex-col items-center text-slate-300">
-                       <Filter className="w-12 h-12 mb-2 opacity-20" />
-                       <p className="font-bold">Tidak ada data yang sesuai filter</p>
+                      <Filter className="w-12 h-12 mb-2 opacity-20" />
+                      <p className="font-bold">
+                        Tidak ada data yang sesuai filter
+                      </p>
                     </div>
                   </TableCell>
                 </TableRow>
