@@ -22,9 +22,9 @@ import { useSidebar } from "../../context/SidebarContext";
 
 const menus = [
   { label: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
-  { label: "Penawaran", href: "/admin/offers", icon: Car },
-  { label: "Pelanggan", href: "/admin/customers", icon: Users },
-  { label: "Pengaturan", href: "/admin/settings", icon: Settings },
+  // { label: "Penawaran", href: "/admin/offers", icon: Car },
+  // { label: "Pelanggan", href: "/admin/customers", icon: Users },
+  // { label: "Pengaturan", href: "/admin/settings", icon: Settings },
 ];
 
 export default function Sidebar() {
