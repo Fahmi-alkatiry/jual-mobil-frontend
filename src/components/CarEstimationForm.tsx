@@ -301,7 +301,7 @@ const CarEstimationForm = () => {
             {s < 3 && (
               <div
                 className={cn(
-                  "w-16 sm:w-24 h-1 mx-2 rounded-full transition-all duration-300",
+                  "flex-1 h-1 mx-1.5 rounded-full transition-all duration-300 min-w-[12px]",
                   step > s ? "bg-primary" : "bg-muted",
                 )}
               />

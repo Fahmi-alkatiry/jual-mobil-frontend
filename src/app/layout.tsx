@@ -21,9 +21,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id">
-      <body className={`${jakarta.variable} antialiased`}>
-        {children}
+    <html lang="id" className="overflow-x-hidden max-w-full">
+      <body className={`${jakarta.variable} antialiased overflow-x-hidden max-w-full`}>
+        <div className="relative w-full max-w-full overflow-x-hidden">
+          {children}
+        </div>
         <Toaster position="top-right" richColors />
       </body>
     </html>

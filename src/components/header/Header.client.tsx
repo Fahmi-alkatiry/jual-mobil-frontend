@@ -41,8 +41,8 @@ export default function HeaderClient() {
       {/* Mobile Menu */}
       <aside
         className={cn(
-          "fixed top-0 right-0 z-[70] h-full w-[80%] max-w-sm bg-card shadow-2xl transition-transform md:hidden",
-          open ? "translate-x-0" : "translate-x-full"
+          "fixed top-0 right-0 z-[70] h-full w-[80%] max-w-sm bg-card shadow-2xl transition-all md:hidden",
+          open ? "translate-x-0 opacity-100" : "translate-x-full opacity-0 invisible pointer-events-none hidden"
         )}
       >
         <div className="flex justify-between items-center m-5 mb-0 border-b-2 pb-3">

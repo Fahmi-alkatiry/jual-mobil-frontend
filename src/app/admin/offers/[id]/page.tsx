@@ -15,6 +15,7 @@ export default function OfferDetailPage() {
     api.get(`/offers/${id}`).then(res => {
       setOffer(res.data.data);
     });
+    console.log(offer);
   }, [id]);
 
   if (!offer) return <p>Loading...</p>;
@@ -27,8 +28,12 @@ export default function OfferDetailPage() {
 
       <div className="bg-white p-6 rounded-xl border space-y-4">
         <h1 className="text-2xl font-extrabold">
-          {offer.fullName}
+          <b>Nama : </b>{offer.fullName}
         </h1>
+        <p className="">
+          <b>Email:</b> : {offer.email}
+        </p>
+        <p><b>WhatsApp:</b> {offer.whatsapp}</p>
 
         <Badge>{offer.status}</Badge>
 
@@ -36,8 +41,13 @@ export default function OfferDetailPage() {
           <p><b>Brand:</b> {offer.brand}</p>
           <p><b>Model:</b> {offer.model}</p>
           <p><b>Tahun:</b> {offer.year}</p>
+          <p><b>Transmisi:</b> {offer.transmission}</p>
+          <p><b>Warna:</b> {offer.color}</p>
+          <p><b>Masa Berlaku:</b> {new Date(offer.taxDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+          <p><b>Kepemilikan:</b> {offer.stnkOwnership}</p>
+          <p><b>Kilometer:</b> {offer.mileage.toLocaleString()} KM</p>
           <p><b>Lokasi:</b> {offer.location}</p>
-          <p><b>WhatsApp:</b> {offer.whatsapp}</p>
+          
         </div>
       </div>
     </div>
