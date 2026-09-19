@@ -4,7 +4,7 @@ const HeroSection = () => {
   return (
     <section id="hero" className="relative py-4 overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/30 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-br from-primary/5 via-transparent to-accent/30 pointer-events-none" />
 
       <div className="relative mx-auto max-w-7xl px-4">
         {/* 🔥 LCP ELEMENT */}

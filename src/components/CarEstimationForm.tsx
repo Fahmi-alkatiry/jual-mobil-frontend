@@ -53,7 +53,7 @@ const carFormSchema = z.object({
   year: z.coerce
     .number({ invalid_type_error: "Harus berupa angka" })
     .int()
-    .min(1980, "Tahun minimal 1980")
+    .min(2000, "Tahun minimal 2000")
     .max(currentYear, `Tahun maksimal ${currentYear}`),
   transmission: z.string().min(1, "Transmisi wajib dipilih"),
   color: z.string().min(1, "Warna wajib diisi"),
@@ -64,6 +64,7 @@ const carFormSchema = z.object({
     invalid_type_error: "Tanggal wajib diisi",
   }),
   stnkOwnership: z.string().min(1, "Kepemilikan wajib dipilih"),
+  generalCondition: z.string().min(1, "Kondisi umum wajib dipilih"),
 
   fullName: z.string().min(3, "Nama terlalu pendek"),
   whatsapp: z.string().min(9, "Nomor WA tidak valid"),
@@ -77,18 +78,210 @@ type CarFormValues = z.infer<typeof carFormSchema>;
 const carBrands = [
   "Toyota",
   "Honda",
-  "Suzuki",
   "Mitsubishi",
   "Daihatsu",
+  "Suzuki",
+  "Hyundai",
+  "Wuling",
   "Nissan",
   "Mazda",
-  "Hyundai",
-  "Kia",
-  "Wuling",
   "BMW",
   "Mercedes-Benz",
-  "Lainnya",
+  "Chery",
+  "BYD",
+  "Kia",
+  "Merek Lain",
 ];
+
+const carModelsByBrand: Record<string, string[]> = {
+  Toyota: [
+    "Avanza",
+    "Veloz",
+    "Innova",
+    "Innova Reborn",
+    "Fortuner",
+    "Rush",
+    "Agya",
+    "Calya",
+    "Yaris",
+    "Yaris Cross", // Tambahan
+    "Vios",
+    "Camry",
+    "Corolla Altis",
+    "Corolla Cross",
+    "Raize",
+    "Hilux",
+    "Hilux Rangga", // Tambahan (Populer)
+    "Alphard",
+    "Voxy",
+    "Model Lain",
+  ],
+  Honda: [
+    "Brio",
+    "Brio Satya",
+    "Jazz",
+    "Mobilio",
+    "BR-V",
+    "HR-V",
+    "CR-V",
+    "Civic",
+    "City",
+    "Accord",
+    "Odyssey",
+    "WR-V",
+    "City Hatchback",
+    "Freed",
+    "CR-Z",
+    "Model Lain",
+  ],
+  Suzuki: [
+    "Ignis",
+    "Baleno",
+    "Ertiga",
+    "XL7",
+    "Carry",
+    "APV",
+    "Swift",
+    "Jimny",
+    "S-Cross",
+    "Grand Vitara",
+    "Fronx",
+    "Karimun Wagon R",
+    "Model Lain",
+  ],
+  Mitsubishi: [
+    "Xpander",
+    "Xpander Cross",
+    "Pajero Sport",
+    "Triton",
+    "L300",
+    "Mirage",
+    "Outlander",
+    "Eclipse Cross",
+    "Xforce",
+    "Colt L300",
+    "Colt Diesel",
+    "Model Lain",
+  ],
+  Daihatsu: [
+    "Ayla",
+    "Sigra",
+    "Xenia",
+    "Terios",
+    "Sirion",
+    "Rocky",
+    "Luxio",
+    "Gran Max",
+    "Taft",
+    "Model Lain",
+  ],
+  Nissan: [
+    "Livina",
+    "Serena",
+    "X-Trail",
+    "Terra",
+    "Navara",
+    "March",
+    "Magnite",
+    "Kicks",
+    "Juke",
+    "Model Lain",
+  ],
+  Mazda: [
+    "Mazda2",
+    "Mazda3",
+    "CX-3",
+    "CX-5",
+    "CX-30",
+    "CX-8",
+    "Mazda6",
+    "BT-50",
+    "MX-5",
+    "Model Lain",
+  ],
+  Hyundai: [
+    "Creta",
+    "Stargazer",
+    "Stargazer X", // Tambahan
+    "Ioniq 5",
+    "Ioniq 6",
+    "Palisade",
+    "Santa Fe",
+    "Tucson",
+    "H-1",
+    "Kona",
+    "Staria",
+    "Model Lain",
+  ],
+  Kia: [
+    "Seltos",
+    "Sonet",
+    "Carens",
+    "Carnival",
+    "Picanto",
+    "Rio",
+    "Sportage",
+    "Sorento",
+    "EV6",
+    "Model Lain",
+  ],
+  Wuling: [
+    "Almaz",
+    "Almaz RS",
+    "Confero",
+    "Cortez",
+    "Formo",
+    "Alvez",
+    "Air EV",
+    "Binguo EV",
+    "Cloud EV",
+    "Model Lain",
+  ],
+  BMW: [
+    "320i",
+    "330i",
+    "520i",
+    "530i",
+    "X1",
+    "X3",
+    "X5",
+    "X7",
+    "Z4",
+    "740Li",
+    "Model Lain",
+  ],
+  "Mercedes-Benz": [
+    "A-Class",
+    "C-Class",
+    "E-Class",
+    "S-Class",
+    "GLA",
+    "GLC",
+    "GLE",
+    "GLS",
+    "CLA",
+    "Vito",
+    "Model Lain",
+  ],
+  BYD: [
+    "Atto 3",
+    "Dolphin",
+    "Seal",
+    "M6",
+    "Sealion 7",
+    "Denza D9",
+    "Han",
+    "E6",
+    "Model Lain",
+  ],
+  Chery: [
+    "Omoda 5 / Omoda E5",
+    "Tiggo 7 Pro",
+    "Tiggo 8 Pro",
+    "Tiggo 5X",
+    "Model Lain",
+  ],
+};
 const transmissions = [
   { value: "Automatic", label: "Otomatis (AT)" },
   { value: "Manual", label: "Manual (MT)" },
@@ -101,11 +294,22 @@ const inspectionLocations = [
   { value: "Kantor Kami", label: "Kunjungi Kantor Kami" },
   { value: "Home Service", label: "Home Service (Kami ke Rumah Anda)" },
 ];
+const generalConditions = [
+  {
+    value: "Sangat Mulus & Rutin Servis",
+    label: "Sangat Mulus & Rutin Servis",
+  },
+  { value: "Bagus / Pemakaian Wajar", label: "Bagus / Pemakaian Wajar" },
+  { value: "Ada Lecet Ringan", label: "Ada Lecet Ringan" },
+  { value: "Perlu Servis / Pajak Mati", label: "Perlu Servis / Pajak Mati" },
+];
 
 const CarEstimationForm = () => {
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [brandOpen, setBrandOpen] = useState(false);
+  const [modelOpen, setModelOpen] = useState(false);
+  const [isCustomModel, setIsCustomModel] = useState(false);
   const router = useRouter();
 
   // State Form Manual
@@ -118,11 +322,16 @@ const CarEstimationForm = () => {
     mileage: undefined,
     taxExpiry: undefined,
     stnkOwnership: "",
+    generalCondition: "",
     fullName: "",
     whatsapp: "",
     email: "",
     inspectionLocation: "",
   });
+
+  const modelOptions = formData.brand
+    ? (carModelsByBrand[formData.brand] ?? [])
+    : [];
 
   // State Error Manual
   const [errors, setErrors] = useState<
@@ -177,7 +386,12 @@ const CarEstimationForm = () => {
     if (step === 1)
       fieldsToValidate = ["brand", "model", "year", "transmission", "color"];
     if (step === 2)
-      fieldsToValidate = ["mileage", "taxExpiry", "stnkOwnership"];
+      fieldsToValidate = [
+        "mileage",
+        "taxExpiry",
+        "stnkOwnership",
+        "generalCondition",
+      ];
 
     let isStepValid = true;
 
@@ -277,7 +491,7 @@ const CarEstimationForm = () => {
         role="alert"
         aria-live="polite"
       >
-        <AlertCircle className="mr-1 h-3 w-3 flex-shrink-0" />
+        <AlertCircle className="mr-1 h-3 shrink-0" />
         <span>{error}</span>
       </p>
     );
@@ -301,7 +515,7 @@ const CarEstimationForm = () => {
             {s < 3 && (
               <div
                 className={cn(
-                  "flex-1 h-1 mx-1.5 rounded-full transition-all duration-300 min-w-[12px]",
+                  "flex-1 h-1 mx-1.5 rounded-full transition-all duration-300 min-w-20 md: min-w-45",
                   step > s ? "bg-primary" : "bg-muted",
                 )}
               />
@@ -365,7 +579,17 @@ const CarEstimationForm = () => {
                               key={b}
                               value={b}
                               onSelect={() => {
+                                const prevBrand = formData.brand;
                                 handleChange("brand", b);
+                                if (prevBrand !== b) {
+                                  handleChange("model", "");
+                                  setIsCustomModel(false);
+                                  setErrors((prev) => {
+                                    const ne = { ...prev };
+                                    delete ne.model;
+                                    return ne;
+                                  });
+                                }
                                 setBrandOpen(false);
                               }}
                             >
@@ -390,17 +614,103 @@ const CarEstimationForm = () => {
 
               <div className="space-y-2">
                 <Label htmlFor="model">Model</Label>
-                <Input
-                  placeholder="cth: Avanza, Brio"
-                  value={formData.model}
-                  onBlur={() => handleBlur("model")}
-                  onChange={(e) => handleChange("model", e.target.value)}
-                  className={cn(
-                    "h-12 rounded-xl",
-                    errors.model && "border-destructive",
-                  )}
-                />
-                <FieldInfo fieldName="model" />
+                {formData.brand === "Lainnya" || isCustomModel ? (
+                  <>
+                    <Input
+                      placeholder="cth: Avanza, Brio"
+                      value={formData.model}
+                      onBlur={() => handleBlur("model")}
+                      onChange={(e) => handleChange("model", e.target.value)}
+                      className={cn(
+                        "h-12 rounded-xl",
+                        errors.model && "border-destructive",
+                      )}
+                    />
+                    {isCustomModel && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsCustomModel(false);
+                          handleChange("model", "");
+                          setErrors((prev) => {
+                            const ne = { ...prev };
+                            delete ne.model;
+                            return ne;
+                          });
+                        }}
+                        className="text-xs font-bold text-primary hover:underline"
+                      >
+                        ← Kembali ke daftar model
+                      </button>
+                    )}
+                    <FieldInfo fieldName="model" />
+                  </>
+                ) : (
+                  <>
+                    <Popover open={modelOpen} onOpenChange={setModelOpen}>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          role="combobox"
+                          aria-expanded={modelOpen}
+                          disabled={!formData.brand}
+                          className={cn(
+                            "w-full h-12 rounded-xl justify-between font-normal",
+                            !formData.model && "text-muted-foreground",
+                            errors.model && "border-destructive",
+                            !formData.brand && "opacity-50 cursor-not-allowed",
+                          )}
+                        >
+                          {formData.model ||
+                            (formData.brand
+                              ? "Pilih model"
+                              : "Pilih merek dulu")}
+                          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent
+                        className="w-[--radix-popover-trigger-width] p-0"
+                        align="start"
+                      >
+                        <Command>
+                          <CommandInput placeholder="Cari model..." />
+                          <CommandList>
+                            <CommandEmpty>Model tidak ditemukan.</CommandEmpty>
+                            <CommandGroup>
+                              {modelOptions.map((m) => (
+                                <CommandItem
+                                  key={m}
+                                  value={m}
+                                  onSelect={() => {
+                                    if (m === "Model Lain") {
+                                      setIsCustomModel(true);
+                                      handleChange("model", "");
+                                      setModelOpen(false);
+                                      return;
+                                    }
+                                    handleChange("model", m);
+                                    setModelOpen(false);
+                                  }}
+                                >
+                                  <Check
+                                    className={cn(
+                                      "mr-2 h-4 w-4",
+                                      formData.model === m
+                                        ? "opacity-100"
+                                        : "opacity-0",
+                                    )}
+                                  />
+                                  {m}
+                                </CommandItem>
+                              ))}
+                            </CommandGroup>
+                          </CommandList>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                    <FieldInfo fieldName="model" />
+                  </>
+                )}
               </div>
             </div>
 
@@ -409,10 +719,15 @@ const CarEstimationForm = () => {
                 <Label htmlFor="year">Tahun</Label>
                 <Input
                   type="number"
+                  min={2000}
+                  max={currentYear}
                   placeholder="2020"
                   value={formData.year ?? ""}
                   onBlur={() => handleBlur("year")}
-                  onChange={(e) => handleChange("year", Number(e.target.value))} // Auto convert ke number
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    handleChange("year", val === "" ? "" : Number(val));
+                  }} // Auto convert ke number
                   className={cn(
                     "h-12 rounded-xl",
                     errors.year && "border-destructive",
@@ -471,13 +786,24 @@ const CarEstimationForm = () => {
               <div className="space-y-2">
                 <Label htmlFor="mileage">Kilometer (KM)</Label>
                 <Input
-                  type="number"
-                  placeholder="50000"
-                  value={formData.mileage ?? ""}
-                  onBlur={() => handleBlur("mileage")}
-                  onChange={(e) =>
-                    handleChange("mileage", Number(e.target.value))
+                  type="text" // Diubah ke text agar mendukung format titik ribuan
+                  placeholder="50.000"
+                  value={
+                    formData.mileage
+                      ? Number(formData.mileage).toLocaleString("id-ID") // Format angka murni ke string ber-titik
+                      : ""
                   }
+                  onBlur={() => handleBlur("mileage")}
+                  onChange={(e) => {
+                    // 1. Hapus semua karakter selain angka (menghilangkan titik saat user mengetik)
+                    const rawValue = e.target.value.replace(/\D/g, "");
+
+                    // 2. Simpan ke state tetap sebagai Number agar validasi tidak rusak
+                    handleChange(
+                      "mileage",
+                      rawValue === "" ? "" : Number(rawValue),
+                    );
+                  }}
                   className={cn(
                     "h-12 rounded-xl",
                     errors.mileage && "border-destructive",
@@ -541,6 +867,31 @@ const CarEstimationForm = () => {
               </Select>
               <FieldInfo fieldName="stnkOwnership" />
             </div>
+
+            <div className="space-y-2">
+              <Label>Kondisi Umum Mobil</Label>
+              <Select
+                value={formData.generalCondition}
+                onValueChange={(val) => handleChange("generalCondition", val)}
+              >
+                <SelectTrigger
+                  className={cn(
+                    "h-12 rounded-xl",
+                    errors.generalCondition && "border-destructive",
+                  )}
+                >
+                  <SelectValue placeholder="Pilih kondisi mobil" />
+                </SelectTrigger>
+                <SelectContent>
+                  {generalConditions.map((o) => (
+                    <SelectItem key={o.value} value={o.value}>
+                      {o.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FieldInfo fieldName="generalCondition" />
+            </div>
           </div>
         )}
 
@@ -548,13 +899,13 @@ const CarEstimationForm = () => {
         {step === 3 && (
           <div className="space-y-5 animate-fade-in">
             <div className="space-y-2">
-              <Label htmlFor="fullname">Nama Lengkap</Label>
+              <Label htmlFor="fullname">Nama Pemilik / Penjual</Label>
               {/* Ditambahkan: name="name" dan autoComplete="name" */}
               <Input
                 id="fullname"
                 name="name"
                 autoComplete="name"
-                placeholder="Sesuai KTP"
+                placeholder="Nama Lengkap"
                 value={formData.fullName}
                 onBlur={() => handleBlur("fullName")}
                 onChange={(e) => handleChange("fullName", e.target.value)}

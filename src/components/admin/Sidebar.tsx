@@ -22,9 +22,7 @@ import { useSidebar } from "../../context/SidebarContext";
 
 const menus = [
   { label: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
-  // { label: "Penawaran", href: "/admin/offers", icon: Car },
-  // { label: "Pelanggan", href: "/admin/customers", icon: Users },
-  // { label: "Pengaturan", href: "/admin/settings", icon: Settings },
+  { label: "Mobil Dibeli", href: "/admin/purchased-cars", icon: Car },
 ];
 
 export default function Sidebar() {
@@ -44,18 +42,17 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Overlay Backdrop Mobile: Muncul saat sidebar terbuka di layar kecil */}
       {isOpen && (
-        <div 
-          className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 md:hidden transition-opacity duration-300"
+        <div
+          className="fixed left-0 right-0 bottom-0 top-16 bg-slate-900/50 backdrop-blur-sm z-40 md:hidden transition-opacity duration-300"
           onClick={closeSidebar}
         />
       )}
 
-      {/* Sidebar Container */}
       <aside className={cn(
-        "fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-slate-200 flex flex-col transition-transform duration-300 ease-in-out md:relative md:translate-x-0",
-        isOpen ? "translate-x-0" : "-translate-x-full"
+        "fixed inset-x-0 top-16 z-50 bg-white border-b border-slate-200 shadow-xl flex flex-col rounded-b-2xl max-h-[calc(100vh-4rem)] overflow-hidden transition-transform duration-300 ease-in-out",
+        "md:inset-y-0 md:left-0 md:right-auto md:w-64 md:border-r md:border-b-0 md:shadow-none md:rounded-none md:max-h-none md:relative md:translate-x-0 md:translate-y-0",
+        isOpen ? "translate-y-0 md:translate-y-0" : "-translate-y-full md:translate-y-0 pointer-events-none md:pointer-events-auto"
       )}>
         {/* LOGO & TOMBOL TUTUP (Mobile) */}
         <div className="h-16 flex items-center justify-between px-6 border-b border-slate-100">

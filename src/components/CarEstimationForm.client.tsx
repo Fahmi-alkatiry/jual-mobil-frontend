@@ -7,7 +7,7 @@ const CarEstimationForm = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="h-[420px] rounded-2xl bg-muted animate-pulse rounded-2xl" />
+      <div className="h-105 rounded-2xl bg-muted animate-pulse" />
     ),
   }
 );
