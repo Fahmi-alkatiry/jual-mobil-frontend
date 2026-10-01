@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import HeroSection from "@/components/HeroSection";
 import TrustSignals from "@/components/TrustSignals";
 import HomeCarousel from "@/components/HomeCarousel";
+import PriceEstimateForm from "@/components/PriceEstimateForm";
 
 export const metadata: Metadata = {
   title: "Jual Mobil Cepat & Aman | Inspeksi Gratis",
@@ -89,7 +90,8 @@ export default function Home() {
 />
     <main className="min-h-screen">
       <HomeCarousel />
-      <HeroSection />
+      <PriceEstimateForm />
+      {/* <HeroSection /> */}
       <TrustSignals />
     </main>
     </>

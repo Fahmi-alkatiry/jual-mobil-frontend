@@ -5,6 +5,12 @@ import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { buildWaLink } from "@/lib/whatsapp";
+
+const CONSULTATION_MESSAGE =
+  "Halo Putra Aditya Motor, saya ingin konsultasi dan menjual mobil saya. Mohon informasi estimasi harga dan jadwal inspeksi gratis ke rumah.";
+
+const consultationHref = buildWaLink(CONSULTATION_MESSAGE);
 
 const whatsappBase64 =
   "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgMzIgMzIiIGZpbGw9IiNmZmZmZmYiPjxwYXRoIGZpbGw9IiNmZmZmZmYiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTI0LjUwNCA3LjUwNEExMS44NzUgMTEuODc1IDAgMCAwIDE2LjA1IDRDOS40NjUgNCA0LjEgOS4zNiA0LjEgMTUuOTQ1YTExLjg4MiAxMS44ODIgMCAwIDAgMS41OTQgNS45NzNMNCAyOC4xMDlsNi4zMzYtMS42NjRhMTEuOTU4IDExLjk1OCAwIDAgMCA1LjcxIDEuNDU3aC4wMDVjNi41ODYgMCAxMS45NDUtNS4zNTkgMTEuOTQ5LTExLjk0OWMwLTMuMTkxLTEuMjQyLTYuMTkxLTMuNDk2LTguNDV6TTE2LjA1IDI1Ljg4M2gtLjAwNGE5LjkzIDkuOTMgMCAwIDEtNS4wNTUtMS4zODNsLS4zNjMtLjIxNWwtMy43NjIuOTg1bDEuMDA0LTMuNjY1bC0uMjM0LS4zNzVhOS45MDQgOS45MDQgMCAwIDEtMS41Mi01LjI4NWMwLTUuNDcyIDQuNDU3LTkuOTI1IDkuOTM4LTkuOTI1YTkuODYzIDkuODYzIDAgMCAxIDcuMDIgMi45MWE5Ljg3NSA5Ljg3NSAwIDAgMSAyLjkwNSA3LjAyM2MwIDUuNDc3LTQuNDU3IDkuOTMtOS45MyA5Ljkzem01LjQ0NS03LjQzOGMtLjI5Ny0uMTQ4LTEuNzY2LS44Ny0yLjAzOS0uOTY4Yy0uMjczLS4xMDItLjQ3My0uMTQ5LS42NzIuMTQ4Yy0uMi4zLS43Ny45NzMtLjk0NSAxLjE3MmMtLjE3Mi4xOTUtLjM0OC4yMjMtLjY0NS4wNzRjLS4zLS4xNDgtMS4yNjEtLjQ2NS0yLjQwMi0xLjQ4NGMtLjg4Ny0uNzktMS40ODgtMS43Ny0xLjY2LTIuMDY3Yy0uMTc2LS4zLS4wMi0uNDYuMTI5LS42MWMuMTM2LS4xMzIuMy0uMzQ3LjQ0OS0uNTIzYy4xNDgtLjE3MS4yLS4yOTYuMy0uNDk2Yy4wOTgtLjE5OS4wNDgtLjM3NS0uMDI3LS41MjNjLS4wNzQtLjE0OC0uNjcxLTEuNjIxLS45MjEtMi4yMTljLS4yNDMtLjU4Mi0uNDg5LS41LS42NzItLjUxMWMtLjE3Mi0uMDA4LS4zNzEtLjAwOC0uNTctLjAwOGMtLjIgMC0uNTI0LjA3NC0uNzk4LjM3NWMtLjI3My4yOTctMS4wNDMgMS4wMi0xLjA0MyAyLjQ4OGMwIDEuNDY5IDEuMDcgMi44OSAxLjIyIDMuMDljLjE0OC4xOTUgMi4xMDUgMy4yMSA1LjEgNC41MDRhMTYuODUgMTYuODUgMCAwIDAgMS43LjYyOWMuNzE1LjIyNiAxLjM2Ny4xOTUgMS44ODMuMTJjLjU3NC0uMDg1IDEuNzY1LS43MjIgMi4wMTUtMS40MjFjLjI0Ny0uNjk1LjI0Ny0xLjI5My4xNzItMS40MThjLS4wNzQtLjEyNS0uMjczLS4yLS41NzQtLjM1MnoiLz48L3N2Zz4=";
@@ -19,7 +25,7 @@ const slides = [
       "Proses 30 menit, kami jemput ke rumah. Inspeksi gratis Jabodetabek.",
     image:
       "https://naufalgallerymotor.vercel.app/images/cars/avanza-silver.webp",
-    href: "https://api.whatsapp.com/send/?phone=6289668125652&text=Halo+Putra+Aditya+Motor%2C+saya+ingin+konsultasi+dan+menjual+mobil+saya.+Mohon+informasi+estimasi+harga+dan+jadwal+inspeksi+gratis+ke+rumah.&type=phone_number&app_absent=0",
+    href: consultationHref,
     button: "Klaim Penawaran Via WA",
     bg: "bg-green-500",
     icon: whatsappBase64,
@@ -29,7 +35,7 @@ const slides = [
     title: "Gratis Home Inspection ke Rumah Anda",
     caption: "Teknisi Putra Aditya Motor datang, cek menyeluruh tanpa biaya.",
     image: "https://naufalgallerymotor.vercel.app/images/cars/calya-white.webp",
-    href: "https://api.whatsapp.com/send/?phone=6289668125652&text=Halo+Putra+Aditya+Motor%2C+saya+ingin+konsultasi+dan+menjual+mobil+saya.+Mohon+informasi+estimasi+harga+dan+jadwal+inspeksi+gratis+ke+rumah.&type=phone_number&app_absent=0",
+    href: consultationHref,
     button: "Jadwalkan inspeksi Gratis",
     bg: "bg-green-500",
     icon: whatsappBase64,
@@ -39,7 +45,7 @@ const slides = [
     title: "Harga Terbaik & Pembayaran Instan",
     caption: "Penawaran kompetitif, transfer lunas di tempat setelah deal.",
     image: "https://naufalgallerymotor.vercel.app/images/cars/brio-yellow.webp",
-    href: "https://api.whatsapp.com/send/?phone=6289668125652&text=Halo+Putra+Aditya+Motor%2C+saya+ingin+konsultasi+dan+menjual+mobil+saya.+Mohon+informasi+estimasi+harga+dan+jadwal+inspeksi+gratis+ke+rumah.&type=phone_number&app_absent=0",
+    href: consultationHref,
     button: "Buka di google maps",
     bg: "bg-gray-500",
     icon: mapsBase64,
@@ -143,7 +149,7 @@ export default function HomeCarousel() {
                       </Button>
                     </Link>
                     <Link
-                      href="#hero"
+                      href="/cek-harga"
                       className="hidden md:mt-4 md:inline-block"
                     >
                       <Button

@@ -25,7 +25,6 @@ import {
   ChevronRight,
   ChevronLeft,
   Check,
-  Loader2,
   AlertCircle,
   ChevronsUpDown,
 } from "lucide-react";
@@ -33,8 +32,7 @@ import { format } from "date-fns";
 import { id } from "date-fns/locale";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { api } from "@/lib/api";
+import { buildWaLink } from "@/lib/whatsapp";
 import {
   Command,
   CommandEmpty,
@@ -43,6 +41,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
+import { carBrands, carModelsByBrand } from "@/lib/car-options";
 
 // --- 1. Schema Validasi (Sama persis dengan Backend) ---
 const currentYear = new Date().getFullYear();
@@ -68,220 +67,13 @@ const carFormSchema = z.object({
 
   fullName: z.string().min(3, "Nama terlalu pendek"),
   whatsapp: z.string().min(9, "Nomor WA tidak valid"),
-  email: z.union([z.literal(""), z.string().email("Format email salah")]),
+  // email: z.union([z.literal(""), z.string().email("Format email salah")]),
   inspectionLocation: z.string().min(1, "Lokasi wajib dipilih"),
 });
 
 // Tipe data inferred dari Zod
 type CarFormValues = z.infer<typeof carFormSchema>;
 
-const carBrands = [
-  "Toyota",
-  "Honda",
-  "Mitsubishi",
-  "Daihatsu",
-  "Suzuki",
-  "Hyundai",
-  "Wuling",
-  "Nissan",
-  "Mazda",
-  "BMW",
-  "Mercedes-Benz",
-  "Chery",
-  "BYD",
-  "Kia",
-  "Merek Lain",
-];
-
-const carModelsByBrand: Record<string, string[]> = {
-  Toyota: [
-    "Avanza",
-    "Veloz",
-    "Innova",
-    "Innova Reborn",
-    "Fortuner",
-    "Rush",
-    "Agya",
-    "Calya",
-    "Yaris",
-    "Yaris Cross", // Tambahan
-    "Vios",
-    "Camry",
-    "Corolla Altis",
-    "Corolla Cross",
-    "Raize",
-    "Hilux",
-    "Hilux Rangga", // Tambahan (Populer)
-    "Alphard",
-    "Voxy",
-    "Model Lain",
-  ],
-  Honda: [
-    "Brio",
-    "Brio Satya",
-    "Jazz",
-    "Mobilio",
-    "BR-V",
-    "HR-V",
-    "CR-V",
-    "Civic",
-    "City",
-    "Accord",
-    "Odyssey",
-    "WR-V",
-    "City Hatchback",
-    "Freed",
-    "CR-Z",
-    "Model Lain",
-  ],
-  Suzuki: [
-    "Ignis",
-    "Baleno",
-    "Ertiga",
-    "XL7",
-    "Carry",
-    "APV",
-    "Swift",
-    "Jimny",
-    "S-Cross",
-    "Grand Vitara",
-    "Fronx",
-    "Karimun Wagon R",
-    "Model Lain",
-  ],
-  Mitsubishi: [
-    "Xpander",
-    "Xpander Cross",
-    "Pajero Sport",
-    "Triton",
-    "L300",
-    "Mirage",
-    "Outlander",
-    "Eclipse Cross",
-    "Xforce",
-    "Colt L300",
-    "Colt Diesel",
-    "Model Lain",
-  ],
-  Daihatsu: [
-    "Ayla",
-    "Sigra",
-    "Xenia",
-    "Terios",
-    "Sirion",
-    "Rocky",
-    "Luxio",
-    "Gran Max",
-    "Taft",
-    "Model Lain",
-  ],
-  Nissan: [
-    "Livina",
-    "Serena",
-    "X-Trail",
-    "Terra",
-    "Navara",
-    "March",
-    "Magnite",
-    "Kicks",
-    "Juke",
-    "Model Lain",
-  ],
-  Mazda: [
-    "Mazda2",
-    "Mazda3",
-    "CX-3",
-    "CX-5",
-    "CX-30",
-    "CX-8",
-    "Mazda6",
-    "BT-50",
-    "MX-5",
-    "Model Lain",
-  ],
-  Hyundai: [
-    "Creta",
-    "Stargazer",
-    "Stargazer X", // Tambahan
-    "Ioniq 5",
-    "Ioniq 6",
-    "Palisade",
-    "Santa Fe",
-    "Tucson",
-    "H-1",
-    "Kona",
-    "Staria",
-    "Model Lain",
-  ],
-  Kia: [
-    "Seltos",
-    "Sonet",
-    "Carens",
-    "Carnival",
-    "Picanto",
-    "Rio",
-    "Sportage",
-    "Sorento",
-    "EV6",
-    "Model Lain",
-  ],
-  Wuling: [
-    "Almaz",
-    "Almaz RS",
-    "Confero",
-    "Cortez",
-    "Formo",
-    "Alvez",
-    "Air EV",
-    "Binguo EV",
-    "Cloud EV",
-    "Model Lain",
-  ],
-  BMW: [
-    "320i",
-    "330i",
-    "520i",
-    "530i",
-    "X1",
-    "X3",
-    "X5",
-    "X7",
-    "Z4",
-    "740Li",
-    "Model Lain",
-  ],
-  "Mercedes-Benz": [
-    "A-Class",
-    "C-Class",
-    "E-Class",
-    "S-Class",
-    "GLA",
-    "GLC",
-    "GLE",
-    "GLS",
-    "CLA",
-    "Vito",
-    "Model Lain",
-  ],
-  BYD: [
-    "Atto 3",
-    "Dolphin",
-    "Seal",
-    "M6",
-    "Sealion 7",
-    "Denza D9",
-    "Han",
-    "E6",
-    "Model Lain",
-  ],
-  Chery: [
-    "Omoda 5 / Omoda E5",
-    "Tiggo 7 Pro",
-    "Tiggo 8 Pro",
-    "Tiggo 5X",
-    "Model Lain",
-  ],
-};
 const transmissions = [
   { value: "Automatic", label: "Otomatis (AT)" },
   { value: "Manual", label: "Manual (MT)" },
@@ -291,9 +83,17 @@ const stnkOwnership = [
   { value: "PT", label: "Perusahaan/PT" },
 ];
 const inspectionLocations = [
-  { value: "Kantor Kami", label: "Kunjungi Kantor Kami" },
-  { value: "Home Service", label: "Home Service (Kami ke Rumah Anda)" },
-];
+  "Jakarta Selatan",
+  "Jakarta Barat",
+  "Jakarta Timur",
+  "Jakarta Pusat",
+  "Jakarta Utara",
+  "Tangerang & Tangsel",
+  "Bekasi & Cikarang",
+  "Depok & Cibubur",
+  "Bogor",
+  "Luar Jabodetabek",
+].map((value) => ({ value, label: value }));
 const generalConditions = [
   {
     value: "Sangat Mulus & Rutin Servis",
@@ -306,11 +106,9 @@ const generalConditions = [
 
 const CarEstimationForm = () => {
   const [step, setStep] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
   const [brandOpen, setBrandOpen] = useState(false);
   const [modelOpen, setModelOpen] = useState(false);
   const [isCustomModel, setIsCustomModel] = useState(false);
-  const router = useRouter();
 
   // State Form Manual
   const [formData, setFormData] = useState<Partial<CarFormValues>>({
@@ -325,7 +123,7 @@ const CarEstimationForm = () => {
     generalCondition: "",
     fullName: "",
     whatsapp: "",
-    email: "",
+    // email: "",
     inspectionLocation: "",
   });
 
@@ -410,15 +208,13 @@ const CarEstimationForm = () => {
     }
   };
 
-  // --- Submit Final ---
-  const handleSubmit = async () => {
-    setIsLoading(true);
-
+  // --- Submit Final: Kirim Ringkasan via WhatsApp (tanpa POST backend) ---
+  const handleSubmit = () => {
     // 1. Validasi Field Kontak (Step 3)
     const finalFields: (keyof CarFormValues)[] = [
       "fullName",
       "whatsapp",
-      "email",
+      // "email",
       "inspectionLocation",
     ];
     let isFinalValid = true;
@@ -431,51 +227,29 @@ const CarEstimationForm = () => {
 
     if (!isFinalValid) {
       toast.error("Mohon lengkapi data kontak.");
-      setIsLoading(false);
       return;
     }
 
-    // 2. Persiapan Payload
-    // Membersihkan angka 0 di depan nomor WA (0812 -> 812)
-    const cleanWhatsapp = formData.whatsapp?.startsWith("0")
-      ? formData.whatsapp.slice(1)
-      : formData.whatsapp;
+    // 2. Susun pesan ringkasan
+    const message = [
+      "Halo Putra Aditya Motor, saya ingin menjual mobil dengan rincian berikut:",
+      `Nama Pemilik: ${formData.fullName}`,
+      `No. WhatsApp: ${formData.whatsapp}`,
+      `Merek Mobil: ${formData.brand}`,
+      `Model / Tipe: ${formData.model}`,
+      `Tahun Pembuatan: ${formData.year}`,
+      `Transmisi: ${
+        transmissions.find((t) => t.value === formData.transmission)?.label ??
+        formData.transmission
+      }`,
+      `Jarak Tempuh: ${formData.mileage ?? ""}`,
+      `Kondisi: ${formData.generalCondition}`,
+      `Lokasi Inspeksi: ${formData.inspectionLocation}`,
+      "Mohon info estimasi penawaran harga dan jadwal inspeksi gratis di rumah. Terima kasih!",
+    ].join("\n");
 
-    const payload = {
-      ...formData,
-      taxDate: formData.taxExpiry, // Pemetaan field untuk backend
-      location: formData.inspectionLocation, // Pemetaan field untuk backend
-      whatsapp: `+62${cleanWhatsapp}`, // Format standar internasional
-    };
-
-    try {
-      // 3. Eksekusi Request menggunakan Axios instance
-      const res = await api.post("/sell-car", payload);
-
-      if (res.data.success) {
-        toast.success("Permintaan Terkirim!", {
-          description: "Tim kami akan segera menghubungi WhatsApp Anda.",
-        });
-
-        const safeName = encodeURIComponent(formData.fullName || "Pelanggan");
-        router.push(`/success?name=${safeName}`);
-      }
-    } catch (error: any) {
-      // 4. Penanganan Error terpusat dari Axios
-      const result = error.response?.data;
-      let errorMessage = result?.message || "Terjadi kesalahan koneksi.";
-
-      // Menampilkan detail error validasi (misal dari Zod di backend)
-      if (result?.errors && Array.isArray(result.errors)) {
-        errorMessage = result.errors
-          .map((e: any) => `${e.field || e.path}: ${e.message}`)
-          .join(", ");
-      }
-
-      toast.error("Gagal", { description: errorMessage });
-    } finally {
-      setIsLoading(false);
-    }
+    // 3. Buka WhatsApp dengan pesan terisi
+    window.open(buildWaLink(message), "_blank", "noopener,noreferrer");
   };
 
   // Helper Component untuk Menampilkan Error
@@ -614,7 +388,7 @@ const CarEstimationForm = () => {
 
               <div className="space-y-2">
                 <Label htmlFor="model">Model</Label>
-                {formData.brand === "Lainnya" || isCustomModel ? (
+                {formData.brand === "Merek Lain" || isCustomModel ? (
                   <>
                     <Input
                       placeholder="cth: Avanza, Brio"
@@ -946,9 +720,8 @@ const CarEstimationForm = () => {
               <FieldInfo fieldName="whatsapp" />
             </div>
 
-            <div className="space-y-2">
+            {/* <div className="space-y-2">
               <Label htmlFor="email">Email (Opsional)</Label>
-              {/* Ditambahkan: id="email", name="email", dan autoComplete="email" */}
               <Input
                 id="email"
                 name="email"
@@ -961,7 +734,7 @@ const CarEstimationForm = () => {
                 className="h-12 rounded-xl"
               />
               <FieldInfo fieldName="email" />
-            </div>
+            </div> */}
 
             <div className="space-y-2">
               <Label>Lokasi Inspeksi</Label>
@@ -997,7 +770,6 @@ const CarEstimationForm = () => {
               type="button"
               variant="outline"
               onClick={() => setStep(step - 1)}
-              disabled={isLoading}
               className="flex-1 h-12 rounded-xl font-semibold"
             >
               <ChevronLeft className="w-4 h-4 mr-1" /> Kembali
@@ -1016,16 +788,9 @@ const CarEstimationForm = () => {
             <Button
               type="button"
               onClick={handleSubmit}
-              disabled={isLoading}
-              className="flex-1 h-12 rounded-xl font-bold text-base"
+              className="flex-1 h-12 rounded-xl font-bold text-base bg-[#25D366] text-white hover:bg-[#25D366]/90"
             >
-              {isLoading ? (
-                <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Mengirim...
-                </>
-              ) : (
-                "Jadwalkan Sekarang!"
-              )}
+              Kirim via WhatsApp
             </Button>
           )}
         </div>

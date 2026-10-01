@@ -1,8 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CATEGORY_LABEL, formatPriceRange, formatYearRange, type PurchasedCar } from "@/types/purchasedCar";
-
-const WA_NUMBER = "6289668125652";
+import { buildWaLink } from "@/lib/whatsapp";
 
 function buildWaHref(car: PurchasedCar) {
   const text = [
@@ -16,7 +15,7 @@ function buildWaHref(car: PurchasedCar) {
     `📍 Lokasi Inspeksi: Jabodetabek`,
     "Mohon info estimasi penawaran harga dan jadwal inspeksi gratis di rumah. Terima kasih!",
   ].join("\n");
-  return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
+  return buildWaLink(text);
 }
 
 export default function PurchasedCarCard({ car }: { car: PurchasedCar }) {
