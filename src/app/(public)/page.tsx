@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import HeroSection from "@/components/HeroSection";
 import TrustSignals from "@/components/TrustSignals";
+import HomeCarousel from "@/components/HomeCarousel";
 
 export const metadata: Metadata = {
   title: "Jual Mobil Cepat & Aman | Inspeksi Gratis",
@@ -16,21 +17,21 @@ export const metadata: Metadata = {
     "inspeksi mobil gratis",
   ],
 
-  authors: [{ name: "Nama Brand Kamu" }],
-  creator: "Nama Brand Kamu",
-  publisher: "Nama Brand Kamu",
+  authors: [{ name: "Putra Aditya Motor" }],
+  creator: "Putra Aditya Motor",
+  publisher: "Putra Aditya Motor",
 
-  metadataBase: new URL("https://domainkamu.com"),
+  metadataBase: new URL("https://jualmobilku.my.id"),
 
   alternates: {
     canonical: "/",
   },
 
   openGraph: {
-    title: "Jual Mobil Cepat & Aman",
+    title: "Jual Mobil Cepat & Aman | Putra Aditya Motor",
     description: "Inspeksi gratis, proses cepat, harga terbaik.",
-    url: "https://domainkamu.com",
-    siteName: "Nama Brand Kamu",
+    url: "https://jualmobilku.my.id",
+    siteName: "Putra Aditya Motor",
     images: [
       {
         url: "/og-home.jpg",
@@ -66,10 +67,10 @@ export default function Home() {
     __html: JSON.stringify({
       "@context": "https://schema.org",
       "@type": "AutomotiveBusiness",
-      name: "Nama Brand Kamu",
-      url: "https://domainkamu.com",
-      logo: "https://domainkamu.com/logo.png",
-      image: "https://domainkamu.com/og-home.jpg",
+      name: "Putra Aditya Motor",
+      url: "https://jualmobilku.my.id",
+      logo: "https://jualmobilku.my.id/logo.png",
+      image: "https://jualmobilku.my.id/og-home.jpg",
       telephone: "+628123456789",
       address: {
         "@type": "PostalAddress",
@@ -80,13 +81,14 @@ export default function Home() {
         name: "Indonesia",
       },
       sameAs: [
-        "https://instagram.com/brandkamu",
-        "https://facebook.com/brandkamu",
+        "https://instagram.com/putraadityamotor",
+        "https://facebook.com/putraadityamotor",
       ],
     }),
   }}
 />
     <main className="min-h-screen">
+      <HomeCarousel />
       <HeroSection />
       <TrustSignals />
     </main>

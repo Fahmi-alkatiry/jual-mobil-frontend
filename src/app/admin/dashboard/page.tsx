@@ -158,7 +158,7 @@ export default function AdminDashboardPage() {
               Dashboard Penawaran
             </h1>
             <p className="text-sm text-muted-foreground font-medium">
-              Manajemen data real-time JualMobilku
+              Manajemen data real-time Putra Aditya Motor
             </p>
           </div>
         </div>

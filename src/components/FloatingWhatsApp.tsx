@@ -7,7 +7,7 @@ export function FloatingWhatsApp() {
 
   return (
     <a
-      href="https://wa.me/6281234567890"
+      href="https://api.whatsapp.com/send/?phone=6289668125652&text=Halo+Putra+Aditya+Motor%2C+saya+ingin+konsultasi+dan+menjual+mobil+saya.+Mohon+informasi+estimasi+harga+dan+jadwal+inspeksi+gratis+ke+rumah.&type=phone_number&app_absent=0"
       target="_blank"
       rel="noopener noreferrer"
       className="fixed bottom-6 right-6 z-50 animate-bounce hover:animate-none"

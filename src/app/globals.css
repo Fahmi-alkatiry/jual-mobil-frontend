@@ -7,7 +7,7 @@
   /* --- KONFIGURASI FONT --- */
   --font-jakarta: "Plus Jakarta Sans", system-ui, sans-serif;
 
-  /* --- KONFIGURASI WARNA (JualMobilku Design System) --- */
+  /* --- KONFIGURASI WARNA (Putra Aditya Motor Design System) --- */
   /* Di Tailwind v4, variabel --color-* otomatis menjadi class utility (misal: bg-background) */
   
   --color-background: hsl(210 20% 98%);

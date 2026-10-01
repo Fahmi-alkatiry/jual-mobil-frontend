@@ -34,6 +34,8 @@ export default function Header() {
 
   const navLinks = [
     { name: "Beranda", href: "/", icon: Info },
+    { name: "Cek Harga", href: "/cek-harga", icon: Info },
+    { name: "Mobil Yang Kami Beli", href: "/mobil-yang-kami-beli", icon: Info },
     { name: "Cara Kerja", href: "/cara-kerja", icon: Info },
     { name: "Keunggulan", href: "/keunggulan", icon: Star },
     { name: "Testimoni", href: "/testimoni", icon: Star },
@@ -45,7 +47,7 @@ export default function Header() {
         "sticky top-0 z-40 w-full border-b transition-all duration-300",
         scrolled
           ? "bg-card border-border shadow-sm"
-          : "bg-card md:bg-transparent md:backdrop-blur-md border-transparent"
+          : "bg-card md:bg-transparent md:backdrop-blur-md border-transparent",
       )}
     >
       <div className="container mx-auto px-6 flex h-16 items-center justify-between">
@@ -74,14 +76,14 @@ export default function Header() {
                 "text-sm font-bold relative",
                 pathname === link.href
                   ? "text-primary"
-                  : "text-muted-foreground hover:text-primary"
+                  : "text-muted-foreground hover:text-primary",
               )}
             >
               {link.name}
               <span
                 className={cn(
                   "absolute -bottom-1 left-0 h-0.5 bg-primary transition-all",
-                  pathname === link.href ? "w-full" : "w-0 hover:w-full"
+                  pathname === link.href ? "w-full" : "w-0 hover:w-full",
                 )}
               />
             </Link>
@@ -103,14 +105,9 @@ export default function Header() {
               </button>
             </SheetTrigger>
 
-            <SheetContent
-              side="right"
-              className="w-[85%] max-w-sm bg-card p-8"
-            >
+            <SheetContent side="right" className="w-[85%] max-w-sm bg-card p-8">
               <SheetHeader>
-                <SheetTitle className="text-lg font-black">
-                  Menu
-                </SheetTitle>
+                <SheetTitle className="text-lg font-black">Menu</SheetTitle>
               </SheetHeader>
 
               <nav className="mt-8 flex flex-col gap-2">

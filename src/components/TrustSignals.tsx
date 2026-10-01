@@ -24,7 +24,7 @@ const TrustSignals = () => {
     <section className="py-16 sm:py-20 bg-card">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <h2 className="text-2xl sm:text-3xl font-bold text-center mb-4">
-          Kenapa Pilih <span className="text-primary">JualMobilku</span>?
+          Kenapa Pilih <span className="text-primary">Putra Aditya Motor</span>?
         </h2>
 
         <p className="text-center text-muted-foreground mb-12 max-w-xl mx-auto">

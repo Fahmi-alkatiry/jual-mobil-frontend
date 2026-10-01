@@ -57,7 +57,7 @@ const Keunggulan = () => {
               <span className="text-xs font-black uppercase tracking-widest">Keunggulan Utama</span>
             </div>
             <h2 className="text-3xl md:text-5xl font-black tracking-tight text-slate-900">
-              Mengapa Jual Mobil di <span className="text-primary">JualMobilku?</span>
+              Mengapa Jual Mobil di <span className="text-primary">Putra Aditya Motor?</span>
             </h2>
           </div>
           <p className="text-slate-500 font-medium max-w-sm">

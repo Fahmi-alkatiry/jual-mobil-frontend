@@ -192,7 +192,7 @@ export default function AdminProfilePage() {
                       type="email"
                       value={profileData.email}
                       onChange={(e) => setProfileData({...profileData, email: e.target.value})}
-                      placeholder="contoh@jualmobilku.id"
+                      placeholder="contoh@putraadityamotor.id"
                       className="rounded-xl border-slate-200 h-11 font-bold focus:ring-blue-500"
                     />
                   </div>

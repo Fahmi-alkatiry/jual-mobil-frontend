@@ -22,7 +22,7 @@ export default function Header() {
           </div>
           <div>
             <span className="font-black text-xl leading-none">
-              Jual<span className="text-primary">Mobilku</span>
+              Putra <span className="text-primary">Aditya Motor</span>
             </span>
             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
               Trusted Dealer

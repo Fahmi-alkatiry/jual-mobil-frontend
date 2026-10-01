@@ -10,11 +10,11 @@ const Footer = () => {
               <Car className="w-5 h-5 text-primary-foreground" />
             </div>
             <span className="font-bold text-xl">
-              Jual<span className="text-primary">Mobilku</span>
+              Putra <span className="text-primary">Aditya Motor</span>
             </span>
           </div>
           <p className="text-sm text-muted-foreground text-center">
-            &copy; {new Date().getFullYear()} JualMobilku. Semua hak
+            &copy; {new Date().getFullYear()} Putra Aditya Motor. Semua hak
             dilindungi.
           </p>
         </div>

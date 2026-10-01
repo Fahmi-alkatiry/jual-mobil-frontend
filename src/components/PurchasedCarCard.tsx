@@ -6,7 +6,7 @@ const WA_NUMBER = "6289668125652";
 
 function buildWaHref(car: PurchasedCar) {
   const text = [
-    "Halo Aditya Motor, saya ingin menjual mobil dengan rincian berikut:",
+    "Halo Putra Aditya Motor, saya ingin menjual mobil dengan rincian berikut:",
     `👤 Nama Pemilik: Pemilik`,
     `📱 No. WhatsApp: -`,
     `🚗 Merek Mobil: ${car.brand}`,

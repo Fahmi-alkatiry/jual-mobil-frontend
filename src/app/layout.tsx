@@ -11,8 +11,8 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "JualMobilku",
-  description: "Platform jual beli mobil bekas",
+  title: "Putra Aditya Motor",
+  description: "Platform jual beli mobil bekas — Putra Aditya Motor",
 };
 
 export default function RootLayout({
@@ -21,9 +21,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id" className="overflow-x-hidden max-w-full">
-      <body className={`${jakarta.variable} antialiased overflow-x-hidden max-w-full`}>
-        <div className="relative w-full max-w-full overflow-x-hidden">
+    <html lang="id" className="overflow-x-clip max-w-full">
+      <body className={`${jakarta.variable} antialiased overflow-x-clip max-w-full`}>
+        <div className="relative w-full max-w-full overflow-x-clip">
           {children}
         </div>
         <Toaster position="top-right" richColors />
