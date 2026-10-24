@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 120" fill="none">
+  <defs>
+    <linearGradient id="logoIconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fb923c" />
+      <stop offset="50%" stop-color="#f97316" />
+      <stop offset="100%" stop-color="#ea580c" />
+    </linearGradient>
+    <linearGradient id="logoGloss" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </linearGradient>
+    <filter id="logoShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#ea580c" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- Left Icon Squircle -->
+  <rect x="14" y="14" width="92" height="92" rx="24" fill="url(#logoIconGrad)" filter="url(#logoShadow)" />
+  <rect x="15" y="15" width="90" height="45" rx="23" fill="url(#logoGloss)" />
+  <rect x="15" y="15" width="90" height="90" rx="23" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.3" />
+
+  <!-- Car Symbol inside Left Icon -->
+  <g transform="translate(28, 28) scale(2.65)" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2" />
+    <circle cx="7" cy="17" r="2" fill="#ffffff" />
+    <path d="M9 17h6" />
+    <circle cx="17" cy="17" r="2" fill="#ffffff" />
+  </g>
+
+  <!-- Brand Typography -->
+  <!-- "Putra" -->
+  <text x="126" y="65" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="38" font-weight="900" fill="#0f172a" letter-spacing="-0.5">Putra</text>
+  
+  <!-- "Aditya Motor" -->
+  <text x="232" y="65" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="38" font-weight="900" fill="#f97316" letter-spacing="-0.5">Aditya Motor</text>
+
+  <!-- Tagline: "TRUSTED DEALER" -->
+  <text x="128" y="92" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="12" font-weight="800" fill="#94a3b8" letter-spacing="3.5">TRUSTED DEALER • JABODETABEK</text>
+</svg>

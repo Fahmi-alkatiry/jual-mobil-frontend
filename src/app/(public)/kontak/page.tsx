@@ -1,10 +1,22 @@
 import type { Metadata } from "next";
 import { CONTACT } from "@/lib/contact";
-import { MessageCircle, Instagram, Facebook, MapPin, ArrowUpRight, Phone } from "lucide-react";
+import {
+  MessageCircle,
+  Instagram,
+  Facebook,
+  MapPin,
+  ArrowUpRight,
+  Phone,
+} from "lucide-react";
+import {
+  ShareBioLinkButton,
+  BioLinkBanner,
+} from "@/components/ShareBioLink.client";
 
 export const metadata: Metadata = {
   title: "Kontak | Putra Aditya Motor",
-  description: "Hubungi Putra Aditya Motor via WhatsApp, Instagram, Facebook, atau kunjungi kami di Google Maps. Layanan inspeksi gratis Jabodetabek.",
+  description:
+    "Hubungi Putra Aditya Motor via WhatsApp, Instagram, Facebook, atau kunjungi kami di Google Maps. Layanan inspeksi gratis Jabodetabek.",
 };
 
 const cards = [
@@ -45,16 +57,29 @@ export default function KontakPage() {
     <section className="py-8 md:py-12 bg-[#f8fafc] min-h-[70vh]">
       <div className="container mx-auto px-6">
         <div className="max-w-3xl mx-auto text-center mb-10">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-blue-600 border border-blue-100 mb-4">
-            <Phone className="w-4 h-4" />
-            <span className="text-xs font-black uppercase tracking-widest">Hubungi Kami</span>
+          <div className="flex flex-wrap items-center justify-center gap-2.5 mb-4">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-blue-600 border border-blue-100">
+              <Phone className="w-4 h-4" />
+              <span className="text-xs font-black uppercase tracking-widest">
+                Hubungi Kami
+              </span>
+            </div>
+            {/* Tombol Bagikan Halaman Link */}
+            <ShareBioLinkButton />
           </div>
+
           <h1 className="text-3xl md:text-5xl font-black tracking-tight text-slate-900">
             Kontak <span className="text-primary">Putra Aditya Motor</span>
           </h1>
           <p className="mt-4 text-slate-500 text-sm md:text-base">
-            Pilih channel favoritmu — WhatsApp, Instagram, Facebook, atau lihat lokasi kami di Google Maps. Inspeksi gratis Jabodetabek.
+            Pilih channel favoritmu — WhatsApp, Instagram, Facebook, atau lihat
+            lokasi kami di Google Maps. Inspeksi gratis Jabodetabek.
           </p>
+        </div>
+
+        {/* Banner Halaman Bio Link dengan Tombol Bagikan */}
+        <div className="max-w-5xl mx-auto mb-6">
+          <BioLinkBanner />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-5xl mx-auto">
@@ -66,7 +91,9 @@ export default function KontakPage() {
               rel="noopener noreferrer"
               className="group rounded-[2rem] border bg-white p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all flex flex-col"
             >
-              <div className={`w-12 h-12 rounded-2xl ${c.bg} ${c.fg} flex items-center justify-center shadow-sm`}>
+              <div
+                className={`w-12 h-12 rounded-2xl ${c.bg} ${c.fg} flex items-center justify-center shadow-sm`}
+              >
                 <c.icon className="w-6 h-6" />
               </div>
               <h3 className="mt-4 font-black text-slate-900">{c.title}</h3>
@@ -91,7 +118,9 @@ export default function KontakPage() {
           <div className="flex-1 min-w-0">
             <h3 className="font-black text-slate-900">Lokasi Kami</h3>
             <p className="text-sm text-slate-500 mt-1">{CONTACT.address}</p>
-            <p className="text-xs font-bold text-slate-400 mt-1">{CONTACT.mapsQuery}</p>
+            <p className="text-xs font-bold text-slate-400 mt-1">
+              {CONTACT.mapsQuery}
+            </p>
           </div>
           <span className="inline-flex items-center gap-2 rounded-full bg-slate-900 text-white px-5 py-2.5 text-xs font-black shrink-0">
             Buka di Google Maps <ArrowUpRight className="w-3.5 h-3.5" />
