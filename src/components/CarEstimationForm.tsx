@@ -272,44 +272,62 @@ const CarEstimationForm = () => {
   };
 
   const renderProgressBar = () => (
-    <div className="mb-8">
-      <div className="flex items-center justify-between mb-3">
-        {[1, 2, 3].map((s) => (
-          <div key={s} className="flex items-center">
-            <div
-              className={cn(
-                "w-10 h-10 rounded-full flex items-center justify-center font-semibold text-sm transition-all duration-300",
-                step >= s
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-muted text-muted-foreground",
-              )}
-            >
-              {step > s ? <Check className="w-5 h-5" /> : s}
-            </div>
-            {s < 3 && (
+    <div className="mb-6 sm:mb-8">
+      <div className="flex items-center justify-between w-full mb-3">
+        {[
+          { num: 1, title: "Detail Mobil" },
+          { num: 2, title: "Kondisi & Legalitas" },
+          { num: 3, title: "Jadwal & Kontak" },
+        ].map((s, idx) => (
+          <div key={s.num} className="flex items-center flex-1 last:flex-none">
+            <div className="flex flex-col items-center">
               <div
                 className={cn(
-                  "flex-1 h-1 mx-1.5 rounded-full transition-all duration-300 min-w-20 md: min-w-45",
-                  step > s ? "bg-primary" : "bg-muted",
+                  "w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-xs sm:text-sm transition-all duration-300 shadow-sm",
+                  step > s.num
+                    ? "bg-emerald-600 text-white"
+                    : step === s.num
+                    ? "bg-primary text-primary-foreground ring-4 ring-primary/20 scale-105"
+                    : "bg-muted text-muted-foreground",
+                )}
+              >
+                {step > s.num ? <Check className="w-5 h-5 stroke-[2.5]" /> : s.num}
+              </div>
+              <span
+                className={cn(
+                  "hidden sm:block text-[11px] font-bold mt-1.5 tracking-tight text-center whitespace-nowrap",
+                  step === s.num ? "text-primary font-black" : "text-muted-foreground",
+                )}
+              >
+                {s.title}
+              </span>
+            </div>
+            {idx < 2 && (
+              <div
+                className={cn(
+                  "flex-1 h-1 mx-2 sm:mx-3 rounded-full transition-all duration-300",
+                  step > s.num ? "bg-emerald-600" : "bg-muted",
                 )}
               />
             )}
           </div>
         ))}
       </div>
-      <p className="text-center text-sm text-muted-foreground">
+      <p className="text-center text-xs sm:text-sm font-semibold text-muted-foreground">
         Langkah {step} dari 3:{" "}
-        {step === 1
-          ? "Detail Mobil"
-          : step === 2
-            ? "Kondisi & Legalitas"
-            : "Jadwal Inspeksi"}
+        <span className="text-foreground font-bold">
+          {step === 1
+            ? "Detail Unit Kendaraan"
+            : step === 2
+              ? "Kondisi Fisik & Legalitas STNK"
+              : "Kontak & Lokasi Inspeksi"}
+        </span>
       </p>
     </div>
   );
 
   return (
-    <div className="w-full max-w-xl mx-auto bg-card rounded-2xl shadow-xl p-6 sm:p-8 border border-border">
+    <div className="w-full max-w-xl mx-auto bg-card rounded-3xl shadow-xl p-5 sm:p-8 border border-border">
       {renderProgressBar()}
 
       <form
@@ -764,13 +782,13 @@ const CarEstimationForm = () => {
         )}
 
         {/* BUTTONS */}
-        <div className="flex gap-3 mt-8">
+        <div className="flex items-center gap-3 mt-8 pt-2">
           {step > 1 && (
             <Button
               type="button"
               variant="outline"
               onClick={() => setStep(step - 1)}
-              className="flex-1 h-12 rounded-xl font-semibold"
+              className="flex-1 h-12 rounded-xl font-bold border-slate-200 hover:bg-slate-50 transition-colors"
             >
               <ChevronLeft className="w-4 h-4 mr-1" /> Kembali
             </Button>
@@ -780,7 +798,7 @@ const CarEstimationForm = () => {
             <Button
               type="button"
               onClick={handleNextStep}
-              className="flex-1 h-12 rounded-xl font-semibold"
+              className="flex-1 h-12 rounded-xl font-bold bg-primary hover:bg-primary/90 text-white shadow-md shadow-primary/20 transition-all active:scale-[0.98]"
             >
               Lanjutkan <ChevronRight className="w-4 h-4 ml-1" />
             </Button>
@@ -788,9 +806,10 @@ const CarEstimationForm = () => {
             <Button
               type="button"
               onClick={handleSubmit}
-              className="flex-1 h-12 rounded-xl font-bold text-base bg-[#25D366] text-white hover:bg-[#25D366]/90"
+              className="flex-1 h-12 rounded-xl font-black text-sm sm:text-base bg-[#25D366] hover:bg-[#1ebe5d] text-white shadow-lg shadow-emerald-500/20 transition-all active:scale-[0.98] flex items-center justify-center gap-2"
             >
-              Kirim via WhatsApp
+              <span>Kirim via WhatsApp</span>
+              <ChevronRight className="w-4 h-4" />
             </Button>
           )}
         </div>

@@ -340,35 +340,125 @@ export default function AdminDashboardPage() {
           <div
             key={item.label}
             onClick={() => {
-              if (item.icon) setStatusFilter(item.icon);
-              fetchOffers();
+              if (item.icon) {
+                setStatusFilter((prev) => (prev === item.icon ? "ALL" : item.icon));
+              } else {
+                setStatusFilter("ALL");
+              }
+              setPage(1);
             }}
-            className="rounded-2xl border bg-white p-5 shadow-sm transition-all hover:shadow-md hover:-translate-y-1 cursor-pointer group"
+            className={cn(
+              "rounded-2xl border bg-white p-4 sm:p-5 shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5 cursor-pointer group",
+              item.icon && statusFilter === item.icon
+                ? "ring-2 ring-blue-600 border-blue-600 bg-blue-50/20"
+                : "border-slate-200"
+            )}
           >
             <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1 group-hover:text-primary transition-colors">
               {item.label}
             </p>
-            <p className={cn("text-3xl font-black tracking-tight", item.color)}>
+            <p className={cn("text-2xl sm:text-3xl font-black tracking-tight", item.color)}>
               {item.value}
             </p>
           </div>
         ))}
       </div>
 
-      {/* TABLE SECTION */}
+      {/* OFFERS CONTAINER (MOBILE CARDS + DESKTOP TABLE) */}
       <div className="relative overflow-hidden rounded-2xl border bg-white shadow-sm">
         {loading && (
-          <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/60 backdrop-blur-[1px]">
+          <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/70 backdrop-blur-[1px]">
             <div className="flex flex-col items-center gap-2">
               <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-tighter">
-                Sinkronisasi...
+              <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                Sinkronisasi data...
               </p>
             </div>
           </div>
         )}
 
-        <div className="overflow-x-auto">
+        {/* MOBILE VIEW (CARDS) */}
+        <div className="block md:hidden divide-y divide-slate-100">
+          {offers.map((o) => (
+            <div key={o.id} className="p-4 space-y-3 bg-white">
+              <div className="flex items-start justify-between gap-2">
+                <div>
+                  <div className="font-black text-slate-900 text-sm">{o.fullName}</div>
+                  <div className="text-[11px] font-bold text-slate-400 mt-0.5">
+                    {new Date(o.createdAt).toLocaleDateString("id-ID", {
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric",
+                    })}
+                  </div>
+                </div>
+                <Badge variant="outline" className="text-[10px] font-bold rounded-full border-slate-200">
+                  {o.location}
+                </Badge>
+              </div>
+
+              <div className="flex items-center justify-between text-xs bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                <div>
+                  <span className="font-extrabold text-slate-800">{o.brand} {o.model}</span>
+                  <span className="ml-2 text-[10px] font-black text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded">
+                    {o.year}
+                  </span>
+                </div>
+                <Link
+                  href={`/admin/offers/${o.id}`}
+                  className="text-xs font-bold text-blue-600 hover:underline"
+                >
+                  Detail →
+                </Link>
+              </div>
+
+              <div className="flex items-center justify-between gap-2 pt-1">
+                <a
+                  href={`https://wa.me/${o.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(
+                    `Halo ${o.fullName}, kami dari Putra Aditya Motor ingin mengonfirmasi data mobil ${o.brand} ${o.model} Anda.`
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 bg-emerald-50 hover:bg-emerald-100 px-3 py-1.5 rounded-xl transition-colors"
+                >
+                  <MessageCircle className="w-3.5 h-3.5" />
+                  <span>{o.whatsapp}</span>
+                </a>
+
+                <Select
+                  defaultValue={o.status}
+                  onValueChange={(v) => updateStatus(o.id, v as OfferStatus)}
+                >
+                  <SelectTrigger
+                    className={cn(
+                      "h-8 w-28 text-[10px] font-black rounded-full border shadow-sm transition-all",
+                      STATUS_CONFIG[o.status]?.color || "bg-slate-100 text-slate-600",
+                    )}
+                  >
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-xl border-slate-200">
+                    {Object.entries(STATUS_CONFIG).map(([key, config]) => (
+                      <SelectItem key={key} value={key} className="text-[11px] font-bold">
+                        {config.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          ))}
+
+          {!loading && offers.length === 0 && (
+            <div className="py-16 text-center text-slate-400 p-4">
+              <Filter className="w-10 h-10 mx-auto mb-2 opacity-30" />
+              <p className="font-bold text-sm">Tidak ada data penawaran yang sesuai filter</p>
+            </div>
+          )}
+        </div>
+
+        {/* DESKTOP VIEW (TABLE) */}
+        <div className="hidden md:block overflow-x-auto">
           <Table>
             <TableHeader className="bg-slate-50/50">
               <TableRow>
@@ -385,7 +475,7 @@ export default function AdminDashboardPage() {
                   Lokasi
                 </TableHead>
                 <TableHead className="font-bold py-4 text-[11px] text-slate-400 uppercase tracking-widest text-center">
-                  Lokasi
+                  Aksi
                 </TableHead>
                 <TableHead className="font-bold py-4 text-[11px] text-slate-400 uppercase tracking-widest">
                   Progres Status
@@ -397,26 +487,24 @@ export default function AdminDashboardPage() {
               {offers.map((o) => (
                 <TableRow
                   key={o.id}
-                  className="hover:bg-slate-50/30 transition-colors"
+                  className="hover:bg-slate-50/50 transition-colors"
                 >
-                  <TableCell className="py-4">
-                    <div className="font-bold text-slate-800 leading-tight">
-                      {new Date(o.createdAt).toLocaleDateString("id-ID")}
-                    </div>
-
-                    {/* <div className="flex gap-2 mt-1">
-                      <span className="text-[10px] font-black text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded uppercase">
-                        {o.createdAt}
-                      </span>
-                    </div> */}
+                  <TableCell className="py-4 px-6 font-bold text-slate-800 text-xs">
+                    {new Date(o.createdAt).toLocaleDateString("id-ID", {
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric",
+                    })}
                   </TableCell>
 
                   <TableCell className="px-6 py-4">
-                    <div className="font-bold text-slate-900 leading-tight">
+                    <div className="font-black text-slate-900 leading-tight">
                       {o.fullName}
                     </div>
                     <a
-                      href={`https://wa.me/${o.whatsapp.replace(/\D/g, "")}`}
+                      href={`https://wa.me/${o.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(
+                        `Halo ${o.fullName}, kami dari Putra Aditya Motor ingin mengonfirmasi penawaran mobil ${o.brand} ${o.model} Anda.`
+                      )}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-[11px] text-emerald-600 font-bold flex items-center gap-1 mt-1 hover:underline"
@@ -432,7 +520,7 @@ export default function AdminDashboardPage() {
                     </div>
                     <div className="flex gap-2 mt-1">
                       <span className="text-[10px] font-black text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded uppercase">
-                        {o.year}
+                        Tahun {o.year}
                       </span>
                     </div>
                   </TableCell>
@@ -445,21 +533,13 @@ export default function AdminDashboardPage() {
                       {o.location}
                     </Badge>
                   </TableCell>
+
                   <TableCell className="py-4 text-center">
-                    {/* <Badge
-                      variant="outline"
-                      className="rounded-full font-bold text-[10px] border-slate-200 py-0.5"
-                    >
-                      {o.location}
-                    </Badge> */}
-                    {/* <Button variant={"link"}>
-                      detail
-                    </Button> */}
                     <Link
                       href={`/admin/offers/${o.id}`}
-                      className="text-blue-500 hover:underline"
+                      className="inline-flex items-center text-xs font-bold text-blue-600 hover:text-blue-800 hover:underline"
                     >
-                      detail
+                      Detail
                     </Link>
                   </TableCell>
 
@@ -497,7 +577,7 @@ export default function AdminDashboardPage() {
 
               {!loading && offers.length === 0 && (
                 <TableRow>
-                  <TableCell colSpan={4} className="py-24 text-center">
+                  <TableCell colSpan={6} className="py-24 text-center">
                     <div className="flex flex-col items-center text-slate-300">
                       <Filter className="w-12 h-12 mb-2 opacity-20" />
                       <p className="font-bold">

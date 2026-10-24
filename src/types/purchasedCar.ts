@@ -32,7 +32,11 @@ export function formatYearRange(min: number, max: number) {
 }
 
 export function formatPrice(n: number) {
-  if (n >= 1) return `${Math.round(n / 1)}jt`;
+  if (n >= 1_000_000) {
+    const jt = n / 1_000_000;
+    return `${Number(jt.toFixed(1))}jt`;
+  }
+  if (n >= 1) return `${Math.round(n)}jt`;
   return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 1 }).format(n);
 }
 

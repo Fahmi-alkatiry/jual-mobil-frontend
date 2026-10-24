@@ -27,14 +27,25 @@ export default function PurchasedCarForm({
 }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const initialPriceMin = initial?.priceMin
+    ? initial.priceMin >= 1000000
+      ? Math.round(initial.priceMin / 1000000)
+      : initial.priceMin
+    : 10;
+  const initialPriceMax = initial?.priceMax
+    ? initial.priceMax >= 1000000
+      ? Math.round(initial.priceMax / 1000000)
+      : initial.priceMax
+    : 999;
+
   const [form, setForm] = useState({
     brand: initial?.brand ?? "",
     model: initial?.model ?? "",
     yearMin: initial?.yearMin ?? 2000,
     yearMax: initial?.yearMax ?? 2030,
     imageUrl: initial?.imageUrl ?? "",
-    priceMin: initial?.priceMin ?? 10,
-    priceMax: initial?.priceMax ?? 999,
+    priceMin: initialPriceMin,
+    priceMax: initialPriceMax,
     category: initial?.category ?? ("MPV" as any),
     isPublished: initial?.isPublished ?? true,
   });
@@ -179,28 +190,57 @@ export default function PurchasedCarForm({
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label>Harga Min (Rp)</Label>
+          <div className="flex items-center justify-between">
+            <Label>Harga Minimal (Juta Rp)</Label>
+            {form.priceMin ? (
+              <span className="text-[11px] font-bold text-blue-600">
+                Rp {form.priceMin} Juta
+              </span>
+            ) : null}
+          </div>
           <Input
-            type="text"
+            type="number"
+            min={1}
+            max={999}
+            placeholder="Contoh: 115"
             value={form.priceMin as any}
             onChange={(e) => {
               const val = e.target.value;
               setForm({ ...form, priceMin: (val === "" ? "" : Number(val)) as any });
             }}
             required
+            className="rounded-xl h-10"
           />
+          <p className="text-[10px] text-slate-400 font-medium">
+            Masukkan skala juta (1 - 999), misal 115 = Rp 115.000.000
+          </p>
         </div>
+
         <div className="space-y-2">
-          <Label>Harga Max (Rp)</Label>
+          <div className="flex items-center justify-between">
+            <Label>Harga Maksimal (Juta Rp)</Label>
+            {form.priceMax ? (
+              <span className="text-[11px] font-bold text-blue-600">
+                Rp {form.priceMax} Juta
+              </span>
+            ) : null}
+          </div>
           <Input
-            type="text"
+            type="number"
+            min={1}
+            max={999}
+            placeholder="Contoh: 215"
             value={form.priceMax as any}
             onChange={(e) => {
               const val = e.target.value;
               setForm({ ...form, priceMax: (val === "" ? "" : Number(val)) as any });
             }}
             required
+            className="rounded-xl h-10"
           />
+          <p className="text-[10px] text-slate-400 font-medium">
+            Masukkan skala juta (1 - 999), misal 215 = Rp 215.000.000
+          </p>
         </div>
       </div>
 

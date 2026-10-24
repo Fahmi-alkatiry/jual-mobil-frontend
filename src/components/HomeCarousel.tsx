@@ -46,9 +46,9 @@ const slides = [
     caption: "Penawaran kompetitif, transfer lunas di tempat setelah deal.",
     image: "https://naufalgallerymotor.vercel.app/images/cars/brio-yellow.webp",
     href: consultationHref,
-    button: "Buka di google maps",
-    bg: "bg-gray-500",
-    icon: mapsBase64,
+    button: "Hubungi via WhatsApp",
+    bg: "bg-green-500",
+    icon: whatsappBase64,
   },
 ] as const;
 
@@ -73,7 +73,7 @@ export default function HomeCarousel() {
       window.matchMedia("(prefers-reduced-motion: reduce)").matches
     )
       return;
-    const id = setInterval(next, 5000);
+    const id = setInterval(next, 4000);
     return () => clearInterval(id);
   }, [paused, next]);
 
@@ -102,7 +102,7 @@ export default function HomeCarousel() {
     >
       <div className="mx-auto max-w-7xl px-4">
         <div
-          className="group relative overflow-hidden rounded-4xl border bg-black aspect-video md:min-w-full max-h-105 shadow-sm"
+          className="group relative overflow-hidden rounded-2xl sm:rounded-3xl md:rounded-4xl border border-slate-200 bg-slate-900 h-[290px] sm:h-[330px] md:h-[380px] lg:h-[420px] shadow-sm select-none"
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
           onFocusCapture={() => setPaused(true)}
@@ -111,50 +111,51 @@ export default function HomeCarousel() {
           onTouchEnd={onTouchEnd}
         >
           <div
-            className="flex h-full transition-transform duration-500 ease-out"
+            className="flex h-full w-full transition-transform duration-500 ease-out"
             style={{ transform: `translateX(-${current * 100}%)` }}
           >
             {slides.map((s) => (
-              <div key={s.id} className="min-w-full relative h-full shrink-0">
+              <div key={s.id} className="min-w-full relative h-full shrink-0 overflow-hidden">
                 <img
                   src={s.image}
                   alt={s.title}
                   loading={s.id === 1 ? "eager" : "lazy"}
-                  className="absolute inset-0 w-full h-full object-cover"
+                  className="absolute inset-0 w-full h-full object-cover object-center"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-4 md:p-8">
-                  <h3 className="text-white text-lg sm:text-2xl md:text-3xl font-black leading-tight text-balance">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-transparent" />
+                <div className="absolute bottom-0 inset-x-0 p-4 sm:p-6 md:p-8 pb-8 sm:pb-8 flex flex-col justify-end z-10">
+                  <h3 className="text-white text-base sm:text-xl md:text-2xl lg:text-3xl font-black leading-tight drop-shadow-md line-clamp-2 max-w-2xl">
                     {s.title}
                   </h3>
-                  <p className="text-white/80 text-xs sm:text-sm md:text-base mt-2 max-w-2xl">
+                  <p className="text-white/90 text-xs sm:text-sm md:text-base mt-1 sm:mt-2 max-w-2xl font-medium drop-shadow-sm line-clamp-1 sm:line-clamp-2">
                     {s.caption}
                   </p>
-                  <div className="mt-3 md:mt-4">
+                  <div className="mt-3 sm:mt-4 flex flex-wrap items-center gap-2 sm:gap-3">
                     <Link
                       href={s.href}
-                      target={"_blank"}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="inline-block"
                     >
                       <Button
                         size="sm"
-                        className={`rounded-full ${s.bg} text-white hover:bg-green-500/90 font-black text-xs md:text-sm h-8 md:h-9 px-4 mx-4 md:px-5`}
+                        className="rounded-full bg-[#25D366] hover:bg-[#1ebe5d] text-white font-black text-xs sm:text-sm h-8 sm:h-9 px-3.5 sm:px-4 shadow-lg shadow-black/20 flex items-center gap-1.5 transition-transform active:scale-95"
                       >
-                        {s.button}
+                        <span>{s.button}</span>
                         <img
                           src={s.icon}
                           alt="WhatsApp"
-                          className="w-5 h-5 object-contain"
+                          className="w-4 h-4 sm:w-5 sm:h-5 object-contain"
                         />
                       </Button>
                     </Link>
                     <Link
                       href="/cek-harga"
-                      className="hidden md:mt-4 md:inline-block"
+                      className="inline-block"
                     >
                       <Button
                         size="sm"
-                        className="rounded-full bg-primary text-white hover:bg-primary/90 font-black text-xs md:text-sm h-8 md:h-9 px-4 mx-4 md:px-5"
+                        className="rounded-full bg-primary hover:bg-primary/90 text-white font-black text-xs sm:text-sm h-8 sm:h-9 px-3.5 sm:px-4 shadow-lg shadow-black/20 transition-transform active:scale-95"
                       >
                         Jual Sekarang
                       </Button>
@@ -168,19 +169,19 @@ export default function HomeCarousel() {
           <button
             aria-label="Slide sebelumnya"
             onClick={prev}
-            className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/85 backdrop-blur flex items-center justify-center shadow hover:bg-white transition-colors transition-opacity duration-200 opacity-100 md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100 md:pointer-events-none md:group-hover:pointer-events-auto md:group-focus-within:pointer-events-auto"
+            className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 w-10 h-10 md:w-11 md:h-11 rounded-full bg-white/85 backdrop-blur hidden md:flex items-center justify-center shadow hover:bg-white transition-colors duration-200 opacity-0 pointer-events-none md:group-hover:opacity-100 md:group-focus-within:opacity-100 md:group-hover:pointer-events-auto md:group-focus-within:pointer-events-auto z-20"
           >
             <ChevronLeft className="w-5 h-5 text-slate-900" />
           </button>
           <button
             aria-label="Slide berikutnya"
             onClick={next}
-            className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/85 backdrop-blur flex items-center justify-center shadow hover:bg-white transition-colors transition-opacity duration-200 opacity-100 md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100 md:pointer-events-none md:group-hover:pointer-events-auto md:group-focus-within:pointer-events-auto"
+            className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 w-10 h-10 md:w-11 md:h-11 rounded-full bg-white/85 backdrop-blur hidden md:flex items-center justify-center shadow hover:bg-white transition-colors duration-200 opacity-0 pointer-events-none md:group-hover:opacity-100 md:group-focus-within:opacity-100 md:group-hover:pointer-events-auto md:group-focus-within:pointer-events-auto z-20"
           >
             <ChevronRight className="w-5 h-5 text-slate-900" />
           </button>
 
-          <div className="absolute bottom-3 md:bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2">
+          <div className="absolute bottom-2 sm:bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 sm:gap-2 z-20">
             {slides.map((_, i) => (
               <button
                 key={i}
@@ -188,10 +189,10 @@ export default function HomeCarousel() {
                 aria-current={i === current}
                 onClick={() => setCurrent(i)}
                 className={cn(
-                  "h-2 rounded-full transition-all",
+                  "h-1.5 sm:h-2 rounded-full transition-all",
                   i === current
-                    ? "w-6 bg-white"
-                    : "w-2 bg-white/60 hover:bg-white/80",
+                    ? "w-5 sm:w-6 bg-white"
+                    : "w-1.5 sm:w-2 bg-white/60 hover:bg-white/80",
                 )}
               />
             ))}

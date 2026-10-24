@@ -10,7 +10,7 @@ export default function AdminHeader() {
   const logout = () => {
     if (typeof window !== "undefined") {
       localStorage.removeItem("admin_token");
-      window.location.href = "/admin/login";
+      window.location.href = "/login";
     }
   };
   return (

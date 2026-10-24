@@ -46,17 +46,30 @@ export default function MobilYangKamiBeliPage() {
         </div>
 
         <div className="mt-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div className="flex flex-wrap gap-2">
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-none -mx-2 px-2 sm:mx-0 sm:px-0">
             {FILTERS.map(f => (
-              <button key={f.value} onClick={() => { setCategory(f.value); setPage(1); }}
-                className={cn("rounded-full px-4 py-2 text-xs font-black border transition-colors", category === f.value ? "bg-blue-600 text-white border-blue-600" : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50")}>
+              <button
+                key={f.value}
+                onClick={() => { setCategory(f.value); setPage(1); }}
+                className={cn(
+                  "rounded-full px-4 py-2 text-xs font-black border whitespace-nowrap transition-all shrink-0 active:scale-95",
+                  category === f.value
+                    ? "bg-primary text-white border-primary shadow-sm"
+                    : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50 hover:border-slate-300"
+                )}
+              >
                 {f.label}
               </button>
             ))}
           </div>
-          <div className="relative w-full md:w-72">
+          <div className="relative w-full md:w-72 shrink-0">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-            <Input placeholder="Cari merek atau model..." value={search} onChange={e => setSearch(e.target.value)} className="pl-10 rounded-xl h-10 bg-white" />
+            <Input
+              placeholder="Cari merek atau model..."
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              className="pl-10 rounded-xl h-10 bg-white border-slate-200 focus-visible:ring-primary"
+            />
           </div>
         </div>
 

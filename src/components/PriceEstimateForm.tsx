@@ -21,6 +21,7 @@ import {
 import { cn } from "@/lib/utils";
 import { carBrands, carModelsByBrand } from "@/lib/car-options";
 import { buildWaLink } from "@/lib/whatsapp";
+import { CONTACT } from "@/lib/contact";
 
 const currentYear = new Date().getFullYear();
 
@@ -112,15 +113,15 @@ const PriceEstimateForm = () => {
   return (
     <section className="py-4" aria-label="Cek perkiraan harga mobil">
       <div className="mx-auto max-w-3xl px-4">
-        <div className="rounded-2xl border border-border bg-card p-6 shadow-xl sm:p-8">
+        <div className="rounded-3xl border border-border bg-card p-6 shadow-xl sm:p-8">
           <div className="mb-6 text-center">
-            <h2 className="text-xl font-black sm:text-2xl">
+            <h2 className="text-xl font-black sm:text-2xl tracking-tight text-slate-900">
               Cek Perkiraan Harga Mobil Instan
             </h2>
-            <p className="mt-2 flex items-center justify-center gap-1.5 text-sm text-muted-foreground">
+            <p className="mt-2 flex items-center justify-center gap-1.5 text-xs sm:text-sm font-semibold text-muted-foreground">
               <Zap className="h-4 w-4 shrink-0 text-primary" />
               <span>
-                Hasil langsung terhubung ke WhatsApp (+62 896-6812-5652)
+                Respon cepat terhubung ke WhatsApp resmi ({CONTACT.whatsappDisplay})
               </span>
             </p>
           </div>
@@ -342,9 +343,10 @@ const PriceEstimateForm = () => {
 
             <Button
               type="submit"
-              className="h-13 w-full rounded-xl bg-[#25D366] text-base font-bold text-white hover:bg-[#25D366]/90"
+              className="h-12 sm:h-13 w-full rounded-xl bg-[#25D366] hover:bg-[#1ebe5d] text-sm sm:text-base font-black text-white shadow-lg shadow-emerald-500/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
             >
-              Cek Harga di WA
+              <span>Cek Estimasi Harga di WhatsApp</span>
+              <Zap className="h-4 w-4" />
             </Button>
           </form>
         </div>
