@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { api } from "@/lib/api";
 import { Button } from "@/components/ui/button";
@@ -127,14 +128,15 @@ export default function OfferDetailPage() {
     <div className="max-w-5xl mx-auto space-y-6 pb-12">
       {/* TOP NAVIGATION & ACTIONS */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => router.back()}
-          className="rounded-xl font-bold border-slate-200 self-start hover:bg-slate-50"
-        >
-          <ArrowLeft className="w-4 h-4 mr-1.5" /> Kembali
-        </Button>
+        <Link href="/admin/dashboard">
+          <Button
+            variant="outline"
+            size="sm"
+            className="rounded-xl font-bold border-slate-200 self-start hover:bg-slate-50"
+          >
+            <ArrowLeft className="w-4 h-4 mr-1.5" /> Kembali ke Dashboard
+          </Button>
+        </Link>
 
         <div className="flex items-center gap-2.5">
           <span className="text-xs font-bold text-slate-400 uppercase tracking-wider hidden sm:inline">

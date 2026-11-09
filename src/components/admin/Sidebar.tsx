@@ -1,106 +1,310 @@
 "use client";
 
 import React, { useEffect } from "react";
+import Link from "next/link";
 import Image from "next/image";
-let usePathname: () => string;
-try {
-  usePathname = require("next/navigation").usePathname;
-} catch (e) {
-  usePathname = () => (typeof window !== "undefined" ? window.location.pathname : "");
-}
-import { LayoutDashboard, Car, ChevronRight, X, PanelLeftClose, PanelLeft } from "lucide-react";
-import { cn } from "../../lib/utils";
-import { useSidebar } from "../../context/SidebarContext";
+import { usePathname } from "next/navigation";
+import {
+  LayoutDashboard,
+  Car,
+  Settings,
+  Globe,
+  Link2,
+  ChevronRight,
+  X,
+  PanelLeftClose,
+  PanelLeft,
+  LogOut,
+  ExternalLink,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useSidebar } from "@/context/SidebarContext";
 
-const menus = [
-  { label: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
-  { label: "Mobil Dibeli", href: "/admin/purchased-cars", icon: Car },
+interface MenuItem {
+  label: string;
+  href: string;
+  icon: React.ElementType;
+  badge?: string;
+  match?: (pathname: string) => boolean;
+}
+
+const mainMenus: MenuItem[] = [
+  {
+    label: "Dashboard",
+    href: "/admin/dashboard",
+    icon: LayoutDashboard,
+    match: (p) => p === "/admin/dashboard" || p.startsWith("/admin/offers"),
+  },
+  {
+    label: "Mobil Dibeli",
+    href: "/admin/purchased-cars",
+    icon: Car,
+    match: (p) => p.startsWith("/admin/purchased-cars"),
+  },
+  {
+    label: "Profil & Akun",
+    href: "/admin/profile",
+    icon: Settings,
+    match: (p) => p === "/admin/profile",
+  },
+];
+
+const quickLinks = [
+  {
+    label: "Lihat Website",
+    href: "/",
+    icon: Globe,
+  },
+  {
+    label: "Halaman Bio Links",
+    href: "/links",
+    icon: Link2,
+  },
 ];
 
 export default function Sidebar() {
   const pathname = usePathname() || "";
   const { isOpen, isCollapsed, closeSidebar, toggleCollapsed } = useSidebar();
 
+  // Otomatis tutup sidebar mobile saat route berpindah
   useEffect(() => {
-    const handleResize = () => { if (window.innerWidth >= 768) closeSidebar(); };
+    closeSidebar();
+  }, [pathname, closeSidebar]);
+
+  // Tutup sidebar mobile jika ukuran layar berubah ke desktop
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) closeSidebar();
+    };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [closeSidebar]);
 
+  const handleLogout = () => {
+    if (typeof window !== "undefined") {
+      if (confirm("Apakah Anda yakin ingin keluar dari panel admin?")) {
+        localStorage.removeItem("admin_token");
+        window.location.href = "/login";
+      }
+    }
+  };
+
   return (
     <>
+      {/* Backdrop overlay di mobile */}
       {isOpen && (
         <div
-          className="fixed left-0 right-0 bottom-0 top-14 sm:top-16 bg-slate-900/50 backdrop-blur-sm z-40 md:hidden transition-opacity"
+          className="fixed inset-0 bg-slate-950/50 backdrop-blur-xs z-40 md:hidden transition-opacity duration-300"
           onClick={closeSidebar}
           aria-hidden="true"
         />
       )}
 
+      {/* Sidebar Container */}
       <aside
-        aria-hidden={!isOpen ? true : undefined}
+        aria-label="Navigasi Admin"
         className={cn(
-          "fixed inset-x-0 top-14 sm:top-16 z-50 bg-white border-b border-slate-200 shadow-xl flex flex-col rounded-b-2xl max-h-[calc(100dvh-3.5rem)] sm:max-h-[calc(100dvh-4rem)] overflow-hidden transition-transform duration-200 ease-out overscroll-contain",
-          "md:sticky md:top-16 md:inset-x-auto md:rounded-none md:shadow-none md:border-b-0 md:border-r md:max-h-none md:h-[calc(100dvh-4rem)] md:translate-y-0 md:overflow-visible",
-          isCollapsed ? "md:w-[72px]" : "md:w-64",
-          isOpen ? "translate-y-0" : "-translate-y-full md:translate-y-0 pointer-events-none md:pointer-events-auto hidden"
+          // Mobile Drawer: slide dari kiri
+          "fixed inset-y-0 left-0 z-50 w-72 max-w-[85vw] bg-white shadow-2xl flex flex-col transition-all duration-300 ease-out border-r border-slate-200/90",
+          isOpen ? "translate-x-0" : "-translate-x-full",
+          // Desktop: static pinned sidebar under sticky header
+          "md:translate-x-0 md:static md:inset-auto md:z-30 md:shadow-none md:border-r md:border-slate-200 md:h-[calc(100dvh-4rem)] md:sticky md:top-16",
+          isCollapsed ? "md:w-20" : "md:w-64"
         )}
       >
-        <div className={cn("h-14 sm:h-16 flex items-center border-b border-slate-100 shrink-0", isCollapsed ? "justify-center px-2 md:px-0" : "justify-between px-4 sm:px-6")}>
-          <div className="flex items-center gap-2.5 min-w-0">
-            <div className="w-8 h-8 bg-white border border-slate-200 rounded-lg flex items-center justify-center shadow-xs shrink-0 overflow-hidden p-0.5">
+        {/* Header Sidebar */}
+        <div
+          className={cn(
+            "h-16 flex items-center border-b border-slate-100 shrink-0 px-4",
+            isCollapsed ? "md:justify-center md:px-2" : "justify-between"
+          )}
+        >
+          <Link
+            href="/admin/dashboard"
+            className={cn(
+              "flex items-center gap-2.5 min-w-0 transition-opacity hover:opacity-90",
+              isCollapsed && "md:justify-center"
+            )}
+            onClick={closeSidebar}
+          >
+            <div className="w-9 h-9 bg-white border border-slate-200 rounded-xl flex items-center justify-center shadow-xs shrink-0 overflow-hidden p-0.5">
               <Image
                 src="/logo-square.png"
-                alt="PAM"
-                width={32}
-                height={32}
+                alt="PAM Logo"
+                width={36}
+                height={36}
                 className="w-full h-full object-contain"
+                priority
               />
             </div>
-            {!isCollapsed && <h1 className="text-[15px] sm:text-base font-black tracking-tight text-slate-900 truncate">Admin Panel</h1>}
-          </div>
+            {!isCollapsed && (
+              <div className="flex flex-col min-w-0">
+                <span className="text-sm font-black tracking-tight text-slate-900 leading-tight truncate">
+                  Putra Aditya
+                </span>
+                <span className="text-[10px] font-black text-primary uppercase tracking-widest leading-none">
+                  Admin Panel
+                </span>
+              </div>
+            )}
+          </Link>
+
+          {/* Tombol aksi kanan: toggle di desktop, close di mobile */}
           <div className="flex items-center gap-1">
-            <button onClick={toggleCollapsed} className="hidden md:inline-flex p-2 min-w-[44px] min-h-[44px] items-center justify-center rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-50" aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}>
-              {isCollapsed ? <PanelLeft className="w-5 h-5" /> : <PanelLeftClose className="w-5 h-5" />}
+            <button
+              type="button"
+              onClick={toggleCollapsed}
+              className="hidden md:inline-flex p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+              aria-label={isCollapsed ? "Perlebar sidebar" : "Persempit sidebar"}
+              title={isCollapsed ? "Perlebar sidebar" : "Persempit sidebar"}
+            >
+              {isCollapsed ? (
+                <PanelLeft className="w-5 h-5" />
+              ) : (
+                <PanelLeftClose className="w-5 h-5" />
+              )}
             </button>
-            <button onClick={closeSidebar} className="md:hidden p-2 min-w-[44px] min-h-[44px] inline-flex items-center justify-center rounded-xl text-slate-400 hover:text-slate-600" aria-label="Tutup Sidebar">
+
+            <button
+              type="button"
+              onClick={closeSidebar}
+              className="md:hidden p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+              aria-label="Tutup sidebar"
+            >
               <X className="w-5 h-5" />
             </button>
           </div>
         </div>
 
-        <nav className="flex-1 p-2 sm:p-4 space-y-1 overflow-y-auto overscroll-contain">
-          {menus.map((menu) => {
-            const active = pathname.startsWith(menu.href);
-            const Icon = menu.icon;
-            return (
-              <a
-                key={menu.href}
-                href={menu.href}
-                onClick={closeSidebar}
-                aria-current={active ? "page" : undefined}
-                title={isCollapsed ? menu.label : undefined}
-                className={cn(
-                  "flex items-center rounded-xl text-sm font-bold transition-colors min-h-[44px] group",
-                  isCollapsed ? "justify-center px-2 py-2.5" : "justify-between px-4 py-3",
-                  active ? "bg-blue-50 text-blue-600 shadow-sm" : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
-                )}
-              >
-                <span className={cn("flex items-center", isCollapsed ? "" : "gap-3")}>
-                  <Icon className={cn("w-5 h-5 shrink-0", active ? "text-blue-600" : "text-slate-400 group-hover:text-slate-600")} />
-                  {!isCollapsed && <span>{menu.label}</span>}
-                </span>
-                {!isCollapsed && active && <ChevronRight className="w-4 h-4 shrink-0" />}
-              </a>
-            );
-          })}
-        </nav>
+        {/* Menu Navigasi Utama */}
+        <div className="flex-1 overflow-y-auto px-3 py-4 space-y-6 overscroll-contain">
+          {/* Main Menus */}
+          <div>
+            {!isCollapsed && (
+              <p className="px-3 mb-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                Menu Utama
+              </p>
+            )}
+            <nav className="space-y-1">
+              {mainMenus.map((menu) => {
+                const active = menu.match
+                  ? menu.match(pathname)
+                  : pathname.startsWith(menu.href);
+                const Icon = menu.icon;
 
-        <div className={cn("border-t border-slate-50 shrink-0", isCollapsed ? "p-2" : "p-4 sm:p-6")}>
-          <div className={cn("bg-slate-50 rounded-2xl text-center", isCollapsed ? "p-2" : "p-4")}>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none truncate">{isCollapsed ? "PAM" : "Putra Aditya Motor"}</p>
-            {!isCollapsed && <p className="text-[10px] text-slate-300 mt-1 font-medium italic">v2.0.4-stable</p>}
+                return (
+                  <Link
+                    key={menu.href}
+                    href={menu.href}
+                    title={isCollapsed ? menu.label : undefined}
+                    aria-current={active ? "page" : undefined}
+                    className={cn(
+                      "flex items-center rounded-xl text-xs sm:text-sm font-bold transition-all min-h-[44px] group relative",
+                      isCollapsed
+                        ? "justify-center px-2 py-2.5"
+                        : "justify-between px-3.5 py-2.5",
+                      active
+                        ? "bg-primary text-white shadow-sm shadow-primary/25"
+                        : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                    )}
+                  >
+                    <div
+                      className={cn(
+                        "flex items-center",
+                        isCollapsed ? "justify-center" : "gap-3"
+                      )}
+                    >
+                      <Icon
+                        className={cn(
+                          "w-5 h-5 shrink-0 transition-transform group-hover:scale-105",
+                          active
+                            ? "text-white"
+                            : "text-slate-400 group-hover:text-slate-700"
+                        )}
+                      />
+                      {!isCollapsed && (
+                        <span className="truncate">{menu.label}</span>
+                      )}
+                    </div>
+
+                    {!isCollapsed && active && (
+                      <ChevronRight className="w-4 h-4 shrink-0 text-white/80" />
+                    )}
+                  </Link>
+                );
+              })}
+            </nav>
           </div>
+
+          {/* Quick Links Section */}
+          <div className="pt-2 border-t border-slate-100">
+            {!isCollapsed && (
+              <p className="px-3 mb-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                Akses Cepat
+              </p>
+            )}
+            <div className="space-y-1">
+              {quickLinks.map((link) => {
+                const Icon = link.icon;
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={isCollapsed ? link.label : undefined}
+                    className={cn(
+                      "flex items-center rounded-xl text-xs sm:text-sm font-bold text-slate-500 hover:bg-slate-100 hover:text-primary transition-all min-h-[42px] group",
+                      isCollapsed
+                        ? "justify-center px-2 py-2"
+                        : "justify-between px-3.5 py-2"
+                    )}
+                  >
+                    <div
+                      className={cn(
+                        "flex items-center",
+                        isCollapsed ? "justify-center" : "gap-3"
+                      )}
+                    >
+                      <Icon className="w-4 h-4 shrink-0 text-slate-400 group-hover:text-primary" />
+                      {!isCollapsed && (
+                        <span className="truncate">{link.label}</span>
+                      )}
+                    </div>
+                    {!isCollapsed && (
+                      <ExternalLink className="w-3.5 h-3.5 text-slate-300 group-hover:text-primary" />
+                    )}
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* Footer Sidebar */}
+        <div className="p-3 border-t border-slate-100 bg-slate-50/70 shrink-0 space-y-2">
+          {/* Tombol Logout */}
+          <button
+            type="button"
+            onClick={handleLogout}
+            title={isCollapsed ? "Keluar" : undefined}
+            className={cn(
+              "w-full flex items-center rounded-xl text-xs font-bold text-slate-500 hover:bg-rose-50 hover:text-rose-600 transition-colors py-2.5",
+              isCollapsed ? "justify-center px-2" : "gap-3 px-3.5"
+            )}
+          >
+            <LogOut className="w-4 h-4 shrink-0 text-slate-400 group-hover:text-rose-600" />
+            {!isCollapsed && <span>Keluar Panel</span>}
+          </button>
+
+          {!isCollapsed && (
+            <div className="px-3 pt-1 text-center">
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                Putra Aditya Motor
+              </p>
+              <p className="text-[9px] text-slate-400">v2.1 • Panel Manajemen</p>
+            </div>
+          )}
         </div>
       </aside>
     </>

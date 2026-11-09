@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import { 
   User, 
   Mail, 
@@ -13,7 +14,8 @@ import {
   CheckCircle2,
   AlertCircle,
   Smartphone,
-  Loader2
+  Loader2,
+  ArrowLeft
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -98,16 +100,28 @@ export default function AdminProfilePage() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8 pb-10">
-      {/* HEADER */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight">Profil & Pengaturan</h1>
-          <p className="text-slate-500 font-medium">Kelola informasi akun dan integrasi sistem WhatsApp Anda.</p>
-        </div>
-        <div className="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-widest bg-white px-4 py-2 rounded-full border border-slate-100 shadow-sm">
-          <ShieldCheck className="w-4 h-4 text-emerald-500" />
-          Status Akun: Terverifikasi
+    <div className="max-w-5xl mx-auto space-y-6 pb-10">
+      {/* BACK & HEADER */}
+      <div className="flex flex-col gap-3">
+        <Link
+          href="/admin/dashboard"
+          className="inline-flex items-center text-xs font-bold text-slate-500 hover:text-primary transition-colors self-start"
+        >
+          <ArrowLeft className="w-3.5 h-3.5 mr-1" /> Kembali ke Dashboard
+        </Link>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+              Profil & Pengaturan
+            </h1>
+            <p className="text-slate-500 font-medium text-xs sm:text-sm">
+              Kelola informasi akun dan integrasi sistem WhatsApp Anda.
+            </p>
+          </div>
+          <div className="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-widest bg-white px-4 py-2 rounded-full border border-slate-100 shadow-xs self-start md:self-auto">
+            <ShieldCheck className="w-4 h-4 text-emerald-500" />
+            Status: Terverifikasi
+          </div>
         </div>
       </div>
 
