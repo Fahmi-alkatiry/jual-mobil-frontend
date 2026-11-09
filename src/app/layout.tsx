@@ -13,6 +13,13 @@ const jakarta = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   title: "Putra Aditya Motor",
   description: "Platform jual beli mobil bekas — Putra Aditya Motor",
+  icons: {
+    icon: [
+      { url: "/icon.png", sizes: "192x192", type: "image/png" },
+      { url: "/favicon.ico" },
+    ],
+    apple: [{ url: "/logo-square.png" }],
+  },
 };
 
 export default function RootLayout({

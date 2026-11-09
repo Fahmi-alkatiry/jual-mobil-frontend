@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
   Menu,
@@ -121,19 +122,20 @@ export default function HeaderClient() {
             >
               {/* Header Drawer */}
               <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4 shrink-0 bg-white">
-                <div className="flex items-center gap-2.5">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary shadow-sm">
-                    <Car className="h-5 w-5 text-white" />
-                  </div>
-                  <div className="leading-none">
-                    <span className="font-black text-base text-slate-900">
-                      Putra <span className="text-primary">Aditya Motor</span>
-                    </span>
-                    <p className="mt-1 text-[9px] font-bold uppercase tracking-widest text-slate-400">
-                      Trusted Dealer
-                    </p>
-                  </div>
-                </div>
+                <Link
+                  href="/"
+                  onClick={() => setOpen(false)}
+                  className="flex items-center gap-2"
+                  aria-label="Beranda Putra Aditya Motor"
+                >
+                  <Image
+                    src="/logo.png"
+                    alt="Putra Aditya Motor"
+                    width={140}
+                    height={48}
+                    className="h-8 w-auto object-contain"
+                  />
+                </Link>
 
                 <button
                   type="button"

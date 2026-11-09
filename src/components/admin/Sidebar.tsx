@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
+import Image from "next/image";
 let usePathname: () => string;
 try {
   usePathname = require("next/navigation").usePathname;
@@ -46,11 +47,17 @@ export default function Sidebar() {
         )}
       >
         <div className={cn("h-14 sm:h-16 flex items-center border-b border-slate-100 shrink-0", isCollapsed ? "justify-center px-2 md:px-0" : "justify-between px-4 sm:px-6")}>
-          <div className="flex items-center gap-2 min-w-0">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-100 shrink-0">
-              <Car className="w-5 h-5 text-white" />
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="w-8 h-8 bg-white border border-slate-200 rounded-lg flex items-center justify-center shadow-xs shrink-0 overflow-hidden p-0.5">
+              <Image
+                src="/logo-square.png"
+                alt="PAM"
+                width={32}
+                height={32}
+                className="w-full h-full object-contain"
+              />
             </div>
-            {!isCollapsed && <h1 className="text-[15px] sm:text-lg font-black tracking-tight text-slate-900 truncate">Admin Panel</h1>}
+            {!isCollapsed && <h1 className="text-[15px] sm:text-base font-black tracking-tight text-slate-900 truncate">Admin Panel</h1>}
           </div>
           <div className="flex items-center gap-1">
             <button onClick={toggleCollapsed} className="hidden md:inline-flex p-2 min-w-[44px] min-h-[44px] items-center justify-center rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-50" aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}>

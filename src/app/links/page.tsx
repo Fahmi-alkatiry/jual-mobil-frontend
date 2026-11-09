@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Share2,
   CheckCircle2,
@@ -85,7 +86,13 @@ export default function LinksPage() {
             href="/"
             className="text-xs font-semibold text-slate-500 hover:text-primary transition-colors flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/80 border border-slate-200/80 shadow-xs backdrop-blur-sm"
           >
-            <Car className="w-3.5 h-3.5 text-primary" />
+            <Image
+              src="/logo-square.png"
+              alt="PAM"
+              width={16}
+              height={16}
+              className="w-4 h-4 object-contain rounded-xs"
+            />
             <span>Website Utama</span>
           </Link>
 
@@ -111,10 +118,15 @@ export default function LinksPage() {
 
         {/* Profile / Avatar */}
         <div className="relative mb-4 group">
-          <div className="w-24 h-24 rounded-3xl bg-gradient-to-tr from-amber-600 via-primary to-orange-400 p-1 shadow-xl shadow-primary/20 ring-4 ring-white flex items-center justify-center transition-transform group-hover:scale-105 duration-300">
-            <div className="w-full h-full rounded-[22px] bg-gradient-to-tr from-primary to-amber-500 flex items-center justify-center text-white">
-              <Car className="w-12 h-12 stroke-[2.2]" />
-            </div>
+          <div className="w-24 h-24 rounded-3xl bg-white p-2 shadow-xl shadow-slate-200 ring-4 ring-white flex items-center justify-center transition-transform group-hover:scale-105 duration-300 border border-slate-100 overflow-hidden">
+            <Image
+              src="/logo-square.png"
+              alt="Putra Aditya Motor"
+              width={96}
+              height={96}
+              className="w-full h-full object-contain"
+              priority
+            />
           </div>
           {/* Verified Badge */}
           <div

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -75,12 +76,17 @@ export default function AdminLoginPage() {
     <div className="flex items-center justify-center min-h-screen bg-gray-50 px-4">
       <Card className="w-full max-w-md shadow-lg border-t-4 border-t-primary">
         <CardHeader className="space-y-1 text-center">
-          <div className="flex justify-center mb-2">
-            <div className="p-3 bg-primary/10 rounded-full">
-              <Lock className="w-6 h-6 text-primary" />
-            </div>
+          <div className="flex justify-center mb-3">
+            <Image
+              src="/logo.png"
+              alt="Putra Aditya Motor"
+              width={180}
+              height={62}
+              className="h-12 w-auto object-contain"
+              priority
+            />
           </div>
-          <CardTitle className="text-2xl font-bold">
+          <CardTitle className="text-xl sm:text-2xl font-bold">
             Admin Login
           </CardTitle>
           <CardDescription>
