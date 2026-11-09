@@ -72,7 +72,7 @@ export default function Home() {
       url: "https://jualmobilku.my.id",
       logo: "https://jualmobilku.my.id/logo.png",
       image: "https://jualmobilku.my.id/og-home.jpg",
-      telephone: "+628123456789",
+      telephone: "+6281585029377",
       address: {
         "@type": "PostalAddress",
         addressCountry: "ID",
