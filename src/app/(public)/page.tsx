@@ -75,8 +75,13 @@ export default function Home() {
       telephone: "+6281585029377",
       address: {
         "@type": "PostalAddress",
+        streetAddress: "Jl. Kemenyan, RT.8/RW.5, Ciganjur, Kec. Jagakarsa",
+        addressLocality: "Kota Jakarta Selatan",
+        addressRegion: "DKI Jakarta",
+        postalCode: "12640",
         addressCountry: "ID",
       },
+      hasMap: "https://maps.app.goo.gl/grnQgLGcd7ny8yiy5?g_st=iw",
       areaServed: {
         "@type": "Country",
         name: "Indonesia",

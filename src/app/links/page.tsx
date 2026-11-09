@@ -400,14 +400,14 @@ export default function LinksPage() {
                   Lokasi
                 </span>
                 <span className="text-[10px] font-semibold text-slate-400">
-                  Jabodetabek
+                  Jakarta Selatan
                 </span>
               </div>
               <h2 className="text-sm sm:text-base font-bold text-slate-900 group-hover:text-red-600 transition-colors">
                 Petunjuk Arah Google Maps
               </h2>
               <p className="text-xs text-slate-500 font-medium truncate">
-                Layanan inspeksi jemput langsung se-Jabodetabek
+                Ciganjur, Jagakarsa • Layanan Inspeksi Se-Jabodetabek
               </p>
             </div>
 

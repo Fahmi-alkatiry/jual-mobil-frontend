@@ -7,7 +7,9 @@ export const CONTACT = {
   instagramHandle: "@putraadityamotor",
   facebook: "https://facebook.com/putraadityamotor",
   facebookHandle: "Putra Aditya Motor",
-  address: "Jabodetabek — Layanan Inspeksi Gratis di Rumah",
-  mapsUrl: "https://maps.google.com/?q=Jabodetabek",
-  mapsQuery: "Jabodetabek",
+  address:
+    "Jl. Kemenyan, RT.8/RW.5, Ciganjur, Kec. Jagakarsa, Kota Jakarta Selatan, DKI Jakarta 12640",
+  addressShort: "Ciganjur, Jagakarsa, Jakarta Selatan",
+  mapsUrl: "https://maps.app.goo.gl/grnQgLGcd7ny8yiy5?g_st=iw",
+  mapsQuery: "Putra Aditya Motor — Ciganjur, Jagakarsa, Jakarta Selatan",
 } as const;
