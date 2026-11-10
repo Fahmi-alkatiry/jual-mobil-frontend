@@ -90,6 +90,30 @@ export default function Home() {
         "https://instagram.com/putraadityamotor",
         "https://facebook.com/putraadityamotor",
       ],
+      description:
+        "Pusat jual beli mobil bekas cepat, aman, dan harga transparan di Jabodetabek. Dana cair 30 menit & inspeksi gratis ke rumah.",
+      priceRange: "Rp 50.000.000 - Rp 1.000.000.000",
+      openingHoursSpecification: [
+        {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday",
+          ],
+          opens: "08:00",
+          closes: "21:00",
+        },
+      ],
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: -6.3402,
+        longitude: 106.8045,
+      },
     }),
   }}
 />

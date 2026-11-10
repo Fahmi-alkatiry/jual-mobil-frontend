@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import {
   ClipboardCheck,
   CalendarDays,
@@ -7,6 +8,22 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Panduan Cara Jual Mobil Bekas — 4 Langkah Mudah & Cepat",
+  description:
+    "Pelajari prosedur mudah jual mobil di Putra Aditya Motor: isi formulir online, jadwalkan inspeksi gratis ke rumah, sepakati harga, dan terima pembayaran instan cair 30 menit.",
+  alternates: {
+    canonical: "/cara-kerja",
+  },
+  openGraph: {
+    title: "Panduan Cara Jual Mobil Bekas Cepat | Putra Aditya Motor",
+    description:
+      "4 langkah mudah jual mobil: isi detail mobil, jadwalkan inspeksi gratis, sepakati penawaran terbaik, dan uang langsung cair.",
+    url: "https://putraadityamotor.id/cara-kerja",
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630 }],
+  },
+};
 
 const CaraKerja = () => {
   const STEPS = [

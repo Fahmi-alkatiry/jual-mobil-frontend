@@ -14,9 +14,19 @@ import {
 } from "@/components/ShareBioLink.client";
 
 export const metadata: Metadata = {
-  title: "Kontak | Putra Aditya Motor",
+  title: "Kontak & Alamat Showroom Resmi",
   description:
-    "Hubungi Putra Aditya Motor via WhatsApp, Instagram, Facebook, atau kunjungi kami di Google Maps. Layanan inspeksi gratis Jabodetabek.",
+    "Hubungi Putra Aditya Motor via WhatsApp resmi 0815-8502-9377, Instagram, Facebook, atau kunjungi showroom kami di Ciganjur, Jagakarsa, Jakarta Selatan. Layanan inspeksi gratis se-Jabodetabek.",
+  alternates: {
+    canonical: "/kontak",
+  },
+  openGraph: {
+    title: "Kontak & Lokasi Showroom Resmi | Putra Aditya Motor",
+    description:
+      "Hubungi kami via WhatsApp 0815-8502-9377 atau kunjungi lokasi showroom di Ciganjur, Jagakarsa, Jakarta Selatan. Inspeksi gratis ke rumah.",
+    url: "https://putraadityamotor.id/kontak",
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630 }],
+  },
 };
 
 const cards = [

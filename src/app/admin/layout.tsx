@@ -1,6 +1,21 @@
+import type { Metadata } from "next";
 import Sidebar from "@/components/admin/Sidebar";
 import AdminHeader from "@/components/admin/AdminHeader";
 import { SidebarProvider } from "@/context/SidebarContext";
+
+export const metadata: Metadata = {
+  title: "Admin Panel",
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: {
+      index: false,
+      follow: false,
+      noimageindex: true,
+    },
+  },
+};
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (

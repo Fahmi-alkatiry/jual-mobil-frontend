@@ -1,6 +1,5 @@
-"use client";
-
 import React from "react";
+import type { Metadata } from "next";
 import { 
   ShieldCheck, 
   Zap, 
@@ -10,6 +9,22 @@ import {
   HeartHandshake,
   ArrowUpRight
 } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "Keunggulan Jual Mobil di Putra Aditya Motor",
+  description:
+    "Mengapa ribuan pelanggan memilih Putra Aditya Motor: harga penawaran tertinggi, dana cair 30 menit, bebas biaya admin, dan inspeksi gratis ke rumah se-Jabodetabek.",
+  alternates: {
+    canonical: "/keunggulan",
+  },
+  openGraph: {
+    title: "Keunggulan Jual Mobil di Putra Aditya Motor",
+    description:
+      "Harga terbaik, proses kilat, keamanan terjamin, dan pembayaran instan langsung cair ke rekening Anda.",
+    url: "https://putraadityamotor.id/keunggulan",
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630 }],
+  },
+};
 
 const Keunggulan = () => {
   const keunggulanData = [
