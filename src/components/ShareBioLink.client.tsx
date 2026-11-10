@@ -17,7 +17,7 @@ export function ShareBioLinkButton({ className = "" }: { className?: string }) {
     const origin =
       typeof window !== "undefined"
         ? window.location.origin
-        : "https://jualmobilku.my.id";
+        : "https://putraadityamotor.id";
     const shareUrl = `${origin}/links`;
 
     const shareData = {
@@ -85,7 +85,7 @@ export function BioLinkBanner({ className = "" }: { className?: string }) {
     const origin =
       typeof window !== "undefined"
         ? window.location.origin
-        : "https://jualmobilku.my.id";
+        : "https://putraadityamotor.id";
     const shareUrl = `${origin}/links`;
 
     const shareData = {

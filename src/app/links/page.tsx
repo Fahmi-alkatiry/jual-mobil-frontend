@@ -32,7 +32,7 @@ export default function LinksPage() {
     const shareData = {
       title: "Putra Aditya Motor — Bio Links",
       text: "Pusat Jual Beli Mobil Bekas Cepat Jabodetabek. Dana Cair 30 Menit & Inspeksi Gratis ke Rumah.",
-      url: typeof window !== "undefined" ? window.location.href : "https://jualmobilku.my.id/links",
+      url: typeof window !== "undefined" ? window.location.href : "https://putraadityamotor.id/links",
     };
 
     if (

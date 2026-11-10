@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   creator: "Putra Aditya Motor",
   publisher: "Putra Aditya Motor",
 
-  metadataBase: new URL("https://jualmobilku.my.id"),
+  metadataBase: new URL("https://putraadityamotor.id"),
 
   alternates: {
     canonical: "/",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Jual Mobil Cepat & Aman | Putra Aditya Motor",
     description: "Inspeksi gratis, proses cepat, harga terbaik.",
-    url: "https://jualmobilku.my.id",
+    url: "https://putraadityamotor.id",
     siteName: "Putra Aditya Motor",
     images: [
       {
@@ -69,9 +69,9 @@ export default function Home() {
       "@context": "https://schema.org",
       "@type": "AutomotiveBusiness",
       name: "Putra Aditya Motor",
-      url: "https://jualmobilku.my.id",
-      logo: "https://jualmobilku.my.id/logo.png",
-      image: "https://jualmobilku.my.id/og-home.jpg",
+      url: "https://putraadityamotor.id",
+      logo: "https://putraadityamotor.id/logo.png",
+      image: "https://putraadityamotor.id/og-home.jpg",
       telephone: "+6281585029377",
       address: {
         "@type": "PostalAddress",
