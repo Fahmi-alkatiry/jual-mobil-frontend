@@ -42,9 +42,6 @@ export const metadata: Metadata = {
     email: true,
     address: true,
   },
-  alternates: {
-    canonical: "/",
-  },
   openGraph: {
     title:
       "Putra Aditya Motor — Jual Beli Mobil Bekas Cepat & Terpercaya Jabodetabek",
